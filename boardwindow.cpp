@@ -2,11 +2,13 @@
 #include "ui_boardwindow.h"
 #include <QApplication>
 #include <QGraphicsView>
-#include "BoardRect.h"
-#include "Board.h"
+#include "QBoardSquare.h"
+#include "QChessBoard.h"
 #include <QTextStream>
 #include <QPixmap>
 #include <QDir>
+#include "QGame.h"
+
 BoardWindow::BoardWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::BoardWindow)
@@ -25,12 +27,9 @@ void BoardWindow::on_pushButton_clicked()
     hide();
     QGraphicsScene* scene = new QGraphicsScene();
 
-    Board* board = new Board();
+    QGame* game = new QGame();
+    game->startGame(scene);
 
-    for (auto rect : board->boardRects) {
-        scene->addItem(rect);
-        scene->addItem(rect->piece);
-    }
 
 //   QString imageFileName = QString::fromUtf8("/Users/dknopik/Code/ChessEngine/queen.png");
 
@@ -43,7 +42,6 @@ void BoardWindow::on_pushButton_clicked()
 //   scene->addItem(item);
 
    QGraphicsView* view = new QGraphicsView(scene);
-
+   view->setMinimumSize(1280, 960);
    view->show();
-
 }
