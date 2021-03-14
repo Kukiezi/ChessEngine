@@ -1,5 +1,5 @@
-#ifndef QKING_H
-#define QKING_H
+#pragma once
+
 #include "QPiece.h"
 
 class QKing: public QPiece
@@ -16,5 +16,3 @@ public:
 
     void setImage() override;
 };
-
-#endif // QKING_H

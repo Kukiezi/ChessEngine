@@ -25,6 +25,11 @@ void BoardSquare::setPiece(std::shared_ptr<Piece>& piece)
     piece_ = piece;
 }
 
+void BoardSquare::setPiece(Piece piece)
+{
+    piece_ = std::shared_ptr<Piece>(&piece);
+}
+
 void BoardSquare::resetPiece()
 {
     piece_ = nullptr;

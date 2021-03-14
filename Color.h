@@ -1,6 +1,4 @@
-#ifndef COLOR_H
-#define COLOR_H
-
+#pragma once
 enum Color
 {
     White,
@@ -8,4 +6,3 @@ enum Color
     Brown
 };
 
-#endif // COLOR_H

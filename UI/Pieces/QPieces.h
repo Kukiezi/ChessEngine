@@ -1,5 +1,4 @@
-#ifndef QPIECES_H
-#define QPIECES_H
+#pragma once
 
 #include "QBishop.h"
 #include "QKing.h"
@@ -10,4 +9,3 @@
 #include "QRook.h"
 #include "../../Color.h"
 
-#endif // QPIECES_H

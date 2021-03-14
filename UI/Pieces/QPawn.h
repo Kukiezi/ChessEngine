@@ -1,5 +1,5 @@
-#ifndef QPAWN_H
-#define QPAWN_H
+#pragma once
+
 #include "QPiece.h"
 
 class QPawn: public QPiece
@@ -17,4 +17,3 @@ public:
     void setImage() override;
 };
 
-#endif // QPAWN_H

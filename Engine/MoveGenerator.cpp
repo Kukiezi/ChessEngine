@@ -20,6 +20,92 @@ std::list<Move *> MoveGenerator::generateLegalMoves(ChessBoard* chessBoard, std:
     return legalMoves;
 }
 
+std::list<Move *> MoveGenerator::generateAllLegalMoves(ChessBoard *chessBoard, Color friendlyPieceColor)
+{
+    std::list<Move*> legalMoves;
+//    Color opponentsColor = friendlyPieceColor == Color::White ? Color::Black : Color::White;
+    for (int x = 0; x < 8; x++) {
+        for (int y = 0; y < 8; y++) {
+            auto piece = chessBoard->boardSquares[x][y]->getPiece();
+            if (piece != nullptr) {
+                if (chessBoard->boardSquares[x][y]->getPiece()->getColor() == friendlyPieceColor) {
+                    if (piece->getShortName() == "Q" || piece->getShortName() == "R" || piece->getShortName() == "B") {
+                        MoveGenerator::generateLegalMovesForSlidingPieces(chessBoard, std::make_pair(x, y), piece, friendlyPieceColor, legalMoves);
+                    } else if (piece->getShortName() == "P") {
+                        MoveGenerator::generateLegalMovesForPawn(chessBoard, std::make_pair(x, y), piece, friendlyPieceColor, legalMoves);
+                    } else if (piece->getShortName() == "N") {
+                        MoveGenerator::generateLegalMovesForKnight(chessBoard, std::make_pair(x, y), piece, friendlyPieceColor, legalMoves);
+                    } else if (piece->getShortName() == "K") {
+                        MoveGenerator::generateLegalMovesForKing(chessBoard, std::make_pair(x, y), piece, friendlyPieceColor, legalMoves);
+                    }
+                }
+            }
+        }
+    }
+    std::cout << "przed legal" << std::endl;
+    MoveGenerator::printLegalMoves(legalMoves);
+    return legalMoves;
+}
+
+
+
+bool MoveGenerator::isKingInCheck(ChessBoard *chessBoard, Color friendlyPieceColor)
+{
+    std::list<BoardSquare*> attackedSquares;
+    getOpponentsAllAttackedSquares(chessBoard, friendlyPieceColor, attackedSquares);
+    for (auto square : attackedSquares) {
+        if (square->getPiece() != nullptr) {
+            if (square->getPiece()->getName() == "King") {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+bool MoveGenerator::performMove(ChessBoard* chessBoard, Move *move)
+{
+    auto piece = chessBoard->boardSquares[move->from.first][move->from.second]->getPiece();
+    chessBoard->boardSquares[move->to.first][move->to.second]->setPiece(piece);
+    chessBoard->boardSquares[move->from.first][move->from.second]->resetPiece();
+
+
+    if (piece->didPieceMove() == true)
+    {
+        piece->setMoved(true);
+        return false;
+    }
+    return true;
+}
+
+void MoveGenerator::getOpponentsAllAttackedSquares(ChessBoard *chessBoard, Color friendlyPieceColor, std::list<BoardSquare *> &attackedSquares)
+{
+    std::list<Move*> legalMoves;
+    Color opponentsColor = friendlyPieceColor == Color::White ? Color::Black : Color::White;
+
+    for (int x = 0; x < 8; x++) {
+        for (int y = 0; y < 8; y++) {
+            auto piece = chessBoard->boardSquares[x][y]->getPiece();
+            if (piece != nullptr) {
+                if (chessBoard->boardSquares[x][y]->getPiece()->getColor() != friendlyPieceColor) {
+                    if (piece->getShortName() == "Q" || piece->getShortName() == "R" || piece->getShortName() == "B") {
+                        MoveGenerator::generateLegalMovesForSlidingPieces(chessBoard, std::make_pair(x, y), piece, opponentsColor, legalMoves);
+                    } else if (piece->getShortName() == "P") {
+                        MoveGenerator::generateAttackingMovesForPawn(chessBoard, std::make_pair(x, y), piece, opponentsColor, legalMoves);
+                    } else if (piece->getShortName() == "N") {
+                        MoveGenerator::generateLegalMovesForKnight(chessBoard, std::make_pair(x, y), piece, opponentsColor, legalMoves);
+                    } else if (piece->getShortName() == "K") {
+                        MoveGenerator::generateLegalMovesForKing(chessBoard, std::make_pair(x, y), piece, opponentsColor, legalMoves);
+                    }
+                }
+            }
+        }
+    }
+    for (auto move : legalMoves) {
+        attackedSquares.push_back(chessBoard->boardSquares[move->to.first][move->to.second]);
+    }
+}
+
 void MoveGenerator::generateLegalMovesForSlidingPieces(ChessBoard *chessBoard, std::pair<int, int> startingSquare, std::shared_ptr<Piece> piece, Color friendlyPieceColor, std::list<Move*>& legalMoves)
 {
     auto directions = piece->getDirectionsOffsets();

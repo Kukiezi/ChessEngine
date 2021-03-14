@@ -1,5 +1,5 @@
-#ifndef QCHESSBOARD_H
-#define QCHESSBOARD_H
+#pragma once
+
 #include "QBoardSquare.h"
 #include "UI/Pieces/QPieces.h"
 
@@ -13,4 +13,3 @@ private:
     Color getNextColor(Color currentColor, int currentColumn);
 };
 
-#endif // QCHESSBOARD_H

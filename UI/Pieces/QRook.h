@@ -1,5 +1,5 @@
-#ifndef QROOK_H
-#define QROOK_H
+#pragma once
+
 #include "QPiece.h"
 
 class QRook: public QPiece
@@ -17,4 +17,3 @@ public:
     void setImage() override;
 };
 
-#endif // QROOK_H

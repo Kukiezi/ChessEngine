@@ -1,27 +1,31 @@
 #include "QPiece.h"
-#include <QString>
-#include <QGraphicsSceneDragDropEvent>
+#include "QMove.h"
 #include "QBoardSquare.h"
+#include <QGraphicsSceneDragDropEvent>
+#include "QGame.h"
+
+extern QGame * game;
 
 QPiece::QPiece(QGraphicsScene* scene, Color _color)
 {
     setColor(_color);
+    dragged_ = false;
     setFlag(QGraphicsPixmapItem::ItemIsMovable);
     setFlag(QGraphicsPixmapItem::ItemSendsGeometryChanges);
-    dragged_ = false;
     this->setScene(scene);
+    move = new QMove();
 }
 
 void QPiece::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
     QList<QGraphicsItem*> colItems = collidingItems();
-    qInfo()<< colItems;
-//    this->rect = dynamic_cast<BoardRect*>(colItems[0]);
+    auto rect = dynamic_cast<QBoardSquare*>(colItems[0]);
+    move->from = rect;
+    from = std::make_pair(rect->row, rect->col);
 }
 
 void QPiece::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
-    qInfo()<< "MOVE EVENT";
     this->dragged_ = true;
     this->setZValue(10);
     QGraphicsPixmapItem::mouseMoveEvent(event);
@@ -47,11 +51,17 @@ void QPiece::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
                     closestItem = item;
                 }
             }
-            qInfo()<< closestItem->type();
             this->setPos(closestItem->scenePos());
             QBoardSquare* boardRect = dynamic_cast<QBoardSquare*>(closestItem);
-            qInfo()<< this;
-            boardRect->setPiece(this);
+            this->to = std::make_pair(boardRect->row, boardRect->col);
+            if (!engine.getEngine()->makeMove(this->from, this->to)) {
+                this->setPos(this->anchorPoint);
+            } else {
+                move->to = boardRect;
+                boardRect->setPiece(this);
+                move->from->removePiece();
+                game->getTurn()->setTurn(engine.getEngine()->getTurn());
+            }
         }
         this->dragged_ = false;
     }

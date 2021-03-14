@@ -1,6 +1,6 @@
 #include "FenService.h"
 
-void FanService::addPieceToBoardFromFenString(std::__1::string fenString, std::unique_ptr<ChessBoard>& chessBoard)
+void FanService::addPieceToBoardFromFenString(std::__1::string fenString, std::shared_ptr<ChessBoard>& chessBoard)
 {
     int count = 0;
     int skip = 0;

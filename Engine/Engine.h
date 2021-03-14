@@ -11,7 +11,9 @@ std::unique_ptr<Game> game_;
 public:
     void startGame(std::string fenString = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR");
 
-    void makeMove(std::string move);
+    bool makeMove(std::string move);
+    bool makeMove(std::pair<int, int> from, std::pair<int, int> to);
+    Color getTurn();
     ChessBoard* getChessBoard() const;
     Game* getGame();
 private:

@@ -10,9 +10,23 @@ ChessBoard* Engine::getChessBoard() const
     return game_->getChessBoard();
 }
 
-void Engine::makeMove(std::string move)
+bool Engine::makeMove(std::string move)
 {
-    getGame()->makeMove(move);
+    return getGame()->makeMove(getGame()->createMove(move));
+    game_->printChessBoard();
+}
+
+bool Engine::makeMove(std::pair<int, int> from, std::pair<int, int> to)
+{
+    std::cout << from.first << from.second << " " << to.first << to.second << std::endl;
+    bool didMoveHappen = getGame()->makeMove(getGame()->createMove(from, to));
+    game_->printChessBoard();
+    return didMoveHappen;
+}
+
+Color Engine::getTurn()
+{
+    return getGame()->getTurn();
 }
 
 Game* Engine::getGame()

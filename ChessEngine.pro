@@ -9,6 +9,7 @@ CONFIG += c++14
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    ChessGraphicsView.cpp \
     Engine/BoardSquare.cpp \
     Engine/ChessBoard.cpp \
     Engine/Engine.cpp \
@@ -29,7 +30,10 @@ SOURCES += \
     Consts.cpp \
     QBoardSquare.cpp \
     QChessBoard.cpp \
+    QEngine.cpp \
     QGame.cpp \
+    QMove.cpp \
+    Turn.cpp \
     UI/Pieces/QBishop.cpp \
     UI/Pieces/QKing.cpp \
     UI/Pieces/QKnight.cpp \
@@ -41,11 +45,13 @@ SOURCES += \
     boardwindow.cpp
 
 HEADERS += \
+    ChessGraphicsView.h \
     Engine/BoardSquare.h \
     Engine/ChessBoard.h \
     Engine/Engine.h \
     Engine/FenService.h \
     Engine/Game.h \
+    Engine/GameState.h \
     Engine/Move.h \
     Engine/MoveGenerator.h \
     Engine/MoveValidator.h \
@@ -62,7 +68,10 @@ HEADERS += \
     Consts.h \
     QBoardSquare.h \
     QChessBoard.h \
+    QEngine.h \
     QGame.h \
+    QMove.h \
+    Turn.h \
     UI/Pieces/QBishop.h \
     UI/Pieces/QKing.h \
     UI/Pieces/QKnight.h \

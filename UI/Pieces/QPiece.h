@@ -1,11 +1,11 @@
-#ifndef QPIECE_H
-#define QPIECE_H
+#pragma once
+
 #include <iostream>
 #include <string>
 #include <QGraphicsPixmapItem>
 #include <QPoint>
 #include "../../Color.h"
-//#include "../Board.h"
+#include "QEngine.h"
 
 class QPiece : public QGraphicsPixmapItem
 {
@@ -14,11 +14,14 @@ class QPiece : public QGraphicsPixmapItem
     Color color_;
     std::string image_;
     QGraphicsScene* scene_;
+    std::pair<int, int> from;
+    std::pair<int, int> to;
 
 public:
     QPoint anchorPoint;
-//    BoardRect* rect;
     bool dragged_;
+    QEngine& engine = QEngine::getInstance();
+    class QMove* move;
 
     QPiece(QGraphicsScene* scene, Color _color);
 
@@ -41,4 +44,3 @@ public:
     std::string getColorText();
 };
 
-#endif // QPIECE_H

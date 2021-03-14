@@ -1,5 +1,5 @@
-#ifndef QBISHOP_H
-#define QBISHOP_H
+#pragma once
+
 #include "QPiece.h"
 
 class QBishop: public QPiece
@@ -17,4 +17,3 @@ public:
     void setImage() override;
 };
 
-#endif // QBISHOP_H

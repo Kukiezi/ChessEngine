@@ -1,5 +1,5 @@
-#ifndef FEN_H
-#define FEN_H
+#pragma once
+
 #include <string>
 #include "QChessBoard.h"
 
@@ -10,4 +10,3 @@ public:
     QPiece* getPieceFromFen(char piece, QGraphicsScene* scene);
 };
 
-#endif // FEN_H

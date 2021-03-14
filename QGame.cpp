@@ -6,19 +6,25 @@ QGame::QGame(std::__1::string fen)
     this->startingFen_ = fen;
 }
 
+std::shared_ptr<Turn> QGame::getTurn()
+{
+    return turn_;
+}
+
 void QGame::startGame(QGraphicsScene* scene)
 {
     this->board = new QChessBoard();
-    engine = std::make_unique<Engine>();
-    engine->startGame();
-    this->initializeBoard(scene, engine->getChessBoard());
+    engine.getEngine()->startGame();
+    this->initializeBoard(scene, engine.getEngine()->getChessBoard());
+    turn_ = std::shared_ptr<Turn>(new Turn());
+    scene->addItem(turn_.get());
 }
 
 void QGame::initializeBoard(QGraphicsScene* scene, ChessBoard* chessBoard)
 {
     initializePieces(scene, chessBoard);
 
-    for (int i = 0; i < 8; i++) {
+    for (int i = 7; i >= 0; i--) {
         for (int j = 0; j < 8; j++) {
             scene->addItem(board->boardSquares[i][j]);
             if (board->boardSquares[i][j]->piece != NULL) {
@@ -30,7 +36,7 @@ void QGame::initializeBoard(QGraphicsScene* scene, ChessBoard* chessBoard)
 
 void QGame::initializePieces(QGraphicsScene *scene, ChessBoard* chessBoard)
 {
-    for (int x = 0; x < 8; x++) {
+    for (int x = 7; x >= 0; x--) {
         for (int y = 0; y < 8; y++) {
             QPiece* pieceToAdd = getPieceFromEngine(scene, chessBoard->boardSquares[x][y]->getPiece());
             if (pieceToAdd != NULL) {

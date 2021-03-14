@@ -7,7 +7,11 @@ class MoveGenerator
 {
 public:
     static std::list<Move*> generateLegalMoves(ChessBoard* chessBoard, std::pair<int, int> startingSquare, Color friendlyPieceColor);
+    static std::list<Move*> generateAllLegalMoves(ChessBoard* chessBoard, Color friendlyPieceColor);
+    static bool isKingInCheck(ChessBoard* chessBoard, Color friendlyPieceColor);
+    static bool performMove(ChessBoard* chessBoard, Move* move);
 private:
+    static void getOpponentsAllAttackedSquares(ChessBoard* chessBoard, Color friendlyPieceColor, std::list<BoardSquare*>& attackedSquares);
     static void generateLegalMovesForSlidingPieces(ChessBoard* chessBoard, std::pair<int, int> startingSquare, std::shared_ptr<Piece> piece, Color friendlyPieceColor, std::list<Move*>& legalMoves);
     static void generateLegalMovesForPawn(ChessBoard* chessBoard, std::pair<int, int> startingSquare, std::shared_ptr<Piece> piece, Color friendlyPieceColor, std::list<Move*>& legalMoves);
     static void generateLegalMovesForKing(ChessBoard* chessBoard, std::pair<int, int> startingSquare, std::shared_ptr<Piece> piece, Color friendlyPieceColor, std::list<Move*>& legalMoves);

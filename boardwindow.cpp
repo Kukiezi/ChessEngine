@@ -8,6 +8,9 @@
 #include <QPixmap>
 #include <QDir>
 #include "QGame.h"
+#include "ChessGraphicsView.h"
+
+extern QGame * game;
 
 BoardWindow::BoardWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -26,8 +29,6 @@ void BoardWindow::on_pushButton_clicked()
 {
     hide();
     QGraphicsScene* scene = new QGraphicsScene();
-
-    QGame* game = new QGame();
     game->startGame(scene);
 
 
@@ -41,7 +42,7 @@ void BoardWindow::on_pushButton_clicked()
 
 //   scene->addItem(item);
 
-   QGraphicsView* view = new QGraphicsView(scene);
+   ChessGraphicsView* view = new ChessGraphicsView(scene);
    view->setMinimumSize(1280, 960);
    view->show();
 }

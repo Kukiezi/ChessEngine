@@ -16,6 +16,7 @@ public:
     std::shared_ptr<Piece> getPiece();
     Piece getPieceCopy();
     void setPiece(std::shared_ptr<Piece>& piece);
+    void setPiece(Piece piece);
     void resetPiece();
 
     Color getColor();

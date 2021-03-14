@@ -1,5 +1,5 @@
-#ifndef QKNIGHT_H
-#define QKNIGHT_H
+#pragma once
+
 #include "QPiece.h"
 
 class QKnight: public QPiece
@@ -16,5 +16,3 @@ public:
 
     void setImage() override;
 };
-
-#endif // QKNIGHT_H

@@ -5,6 +5,9 @@
 #include "QBoardSquare.h"
 #include "QChessBoard.h"
 #include "Engine/Engine.h"
+#include "QGame.h"
+
+QGame * game = new QGame();
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
