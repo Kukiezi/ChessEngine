@@ -5,9 +5,11 @@ BoardSquare::BoardSquare()
     setColor(Color::White);
 }
 
-BoardSquare::BoardSquare(Color color)
+BoardSquare::BoardSquare(Color color, int row, int col)
 {
     setColor(color);
+    this->row = row;
+    this->col = col;
 }
 
 std::shared_ptr<Piece> BoardSquare::getPiece()

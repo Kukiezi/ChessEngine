@@ -7,9 +7,11 @@
 #include "QEngine.h"
 #include "Engine/Engine.h"
 #include "Turn.h"
+#include "QChessMenu.h"
 
 class QGame
 {
+    QChessMenu* chessMenu;
     QChessBoard* board;
     std::string startingFen_;
     std::shared_ptr<Turn> turn_;
@@ -18,6 +20,8 @@ public:
     QGame(std::string fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR");
     std::shared_ptr<Turn> getTurn();
     void startGame(QGraphicsScene* scene);
+    void resetSquareColors();
+    QChessBoard* getChessBoard();
 
 private:
     void initializeBoard(QGraphicsScene* scene, ChessBoard* chessBoard);

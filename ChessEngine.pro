@@ -30,6 +30,7 @@ SOURCES += \
     Consts.cpp \
     QBoardSquare.cpp \
     QChessBoard.cpp \
+    QChessMenu.cpp \
     QEngine.cpp \
     QGame.cpp \
     QMove.cpp \
@@ -68,6 +69,7 @@ HEADERS += \
     Consts.h \
     QBoardSquare.h \
     QChessBoard.h \
+    QChessMenu.h \
     QEngine.h \
     QGame.h \
     QMove.h \

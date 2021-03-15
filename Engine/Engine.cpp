@@ -24,6 +24,11 @@ bool Engine::makeMove(std::pair<int, int> from, std::pair<int, int> to)
     return didMoveHappen;
 }
 
+std::shared_ptr<Move> Engine::getAIMove()
+{
+    return this->getGame()->getAIMove();
+}
+
 Color Engine::getTurn()
 {
     return getGame()->getTurn();

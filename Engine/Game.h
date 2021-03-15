@@ -2,6 +2,7 @@
 #define GAME_H
 #include <string>
 #include <list>
+#include <vector>
 #include "ChessBoard.h"
 #include "FenService.h"
 #include "Move.h"
@@ -18,12 +19,15 @@ Color* turn_ = &player1_;
 std::shared_ptr<ChessBoard> chessBoard_;
 
 public:
+    std::list<BoardSquare*> attackedSquares;
     Game(std::string fenString);
 
     ChessBoard* getChessBoard();
     ChessBoard getChessBoardCopy();
     void setNextTurn();
+    std::shared_ptr<Move> getLastCastleMove();
     bool makeMove(std::shared_ptr<Move> move);
+    std::shared_ptr<Move> getAIMove();
     std::shared_ptr<Move> createMove(std::string moveString);
     std::shared_ptr<Move> createMove(std::pair<int, int> from, std::pair<int, int> to);
     void setChessBoard(std::shared_ptr<ChessBoard> chessBoard);

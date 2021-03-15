@@ -17,7 +17,18 @@ void QGame::startGame(QGraphicsScene* scene)
     engine.getEngine()->startGame();
     this->initializeBoard(scene, engine.getEngine()->getChessBoard());
     turn_ = std::shared_ptr<Turn>(new Turn());
+    chessMenu = new QChessMenu();
     scene->addItem(turn_.get());
+}
+
+void QGame::resetSquareColors()
+{
+    this->board->resetSquareColors();
+}
+
+QChessBoard* QGame::getChessBoard()
+{
+    return board;
 }
 
 void QGame::initializeBoard(QGraphicsScene* scene, ChessBoard* chessBoard)
@@ -32,6 +43,7 @@ void QGame::initializeBoard(QGraphicsScene* scene, ChessBoard* chessBoard)
             }
         }
     }
+    scene->addItem(new QChessMenu());
 }
 
 void QGame::initializePieces(QGraphicsScene *scene, ChessBoard* chessBoard)

@@ -13,7 +13,6 @@ public:
 
     ChessBoard();
 
-
     void printChessBoard();
 };
 

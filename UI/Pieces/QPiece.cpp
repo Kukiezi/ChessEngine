@@ -61,6 +61,26 @@ void QPiece::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
                 boardRect->setPiece(this);
                 move->from->removePiece();
                 game->getTurn()->setTurn(engine.getEngine()->getTurn());
+                game->resetSquareColors();
+                move->from->setColor(Color::MOVE_FROM);
+                move->to->setColor(Color::MOVE_TO);
+                auto castleMove = engine.getEngine()->getGame()->getLastCastleMove();
+                if (castleMove != NULL) {
+                    auto pieceToCastle = game->getChessBoard()->boardSquares[castleMove->castleFrom.first][castleMove->castleFrom.second]->getPiece();
+                    game->getChessBoard()->boardSquares[castleMove->castleTo.first][castleMove->castleTo.second]->setPiece(pieceToCastle);
+                    game->getChessBoard()->boardSquares[castleMove->castleFrom.first][castleMove->castleFrom.second]->removePiece();
+                }
+                auto aiMove = engine.getEngine()->getAIMove();
+                if (aiMove != NULL) {
+                    auto aiPiece = game->getChessBoard()->boardSquares[aiMove->from.first][aiMove->from.second]->getPiece();
+                    aiPiece->setZValue(10);
+                    game->getChessBoard()->boardSquares[aiMove->to.first][aiMove->to.second]->setPiece(aiPiece);
+                    game->getChessBoard()->boardSquares[aiMove->from.first][aiMove->from.second]->removePiece();
+                    game->getTurn()->setTurn(engine.getEngine()->getTurn());
+                    game->resetSquareColors();
+                    game->getChessBoard()->boardSquares[aiMove->to.first][aiMove->to.second]->setColor(Color::MOVE_TO);
+                    game->getChessBoard()->boardSquares[aiMove->from.first][aiMove->from.second]->setColor(Color::MOVE_FROM);
+                }
             }
         }
         this->dragged_ = false;

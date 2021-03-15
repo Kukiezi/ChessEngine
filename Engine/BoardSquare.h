@@ -10,8 +10,10 @@ std::shared_ptr<Piece> piece_;
 Color color_;
 
 public:
+    int row;
+    int col;
     BoardSquare();
-    BoardSquare(Color color);
+    BoardSquare(Color color, int row, int col);
 
     std::shared_ptr<Piece> getPiece();
     Piece getPieceCopy();

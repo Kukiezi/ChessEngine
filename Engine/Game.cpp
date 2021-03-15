@@ -27,6 +27,15 @@ void Game::setNextTurn()
     turn_ = &player1_;
 }
 
+std::shared_ptr<Move> Game::getLastCastleMove()
+{
+    auto move = listOfMoves[listOfMoves.size() - 1];
+    if (move->isCastleMove) {
+        return move;
+    }
+    return NULL;
+}
+
 bool Game::makeMove(std::shared_ptr<Move> move)
 {
     if (gameState_ == GameState::FINISHED) {
@@ -42,6 +51,13 @@ bool Game::makeMove(std::shared_ptr<Move> move)
     chessBoard_->boardSquares[move->to.first][move->to.second]->setPiece(piece);
     chessBoard_->boardSquares[move->from.first][move->from.second]->resetPiece();
 
+    if (piece->getShortName() == "K" && move->isCastleMove) {
+        auto castlePiece = chessBoard_->boardSquares[move->castleFrom.first][move->castleFrom.second]->getPiece();
+        chessBoard_->boardSquares[move->castleTo.first][move->castleTo.second]->setPiece(castlePiece);
+        chessBoard_->boardSquares[move->castleFrom.first][move->castleFrom.second]->resetPiece();
+        castlePiece->setMoved(true);
+    }
+
     piece->setMoved(true);
     setNextTurn();
 
@@ -50,6 +66,44 @@ bool Game::makeMove(std::shared_ptr<Move> move)
         gameState_ = GameState::FINISHED;
     }
     return true;
+}
+
+std::shared_ptr<Move> Game::getAIMove()
+{
+    if (gameState_ == GameState::FINISHED) {
+        std::cout << "Game HAS FINISHED" << std::endl;
+        return NULL;
+    }
+
+    auto legalMoves = MoveValidator::getAllLegalMoves(getChessBoard(), *turn_);
+
+    int index = rand() % legalMoves.size();
+    std::vector<Move*> list ;
+    for (auto move : legalMoves) {
+        list.push_back(move);
+    }
+    auto move = list[index];
+
+    auto piece = chessBoard_->boardSquares[move->from.first][move->from.second]->getPiece();
+
+    chessBoard_->boardSquares[move->to.first][move->to.second]->setPiece(piece);
+    chessBoard_->boardSquares[move->from.first][move->from.second]->resetPiece();
+
+    if (piece->getShortName() == "K" && move->isCastleMove) {
+        auto castlePiece = chessBoard_->boardSquares[move->castleFrom.first][move->castleFrom.second]->getPiece();
+        chessBoard_->boardSquares[move->castleTo.first][move->castleTo.second]->setPiece(castlePiece);
+        chessBoard_->boardSquares[move->castleFrom.first][move->castleFrom.second]->resetPiece();
+        castlePiece->setMoved(true);
+    }
+
+    piece->setMoved(true);
+    setNextTurn();
+
+    if (MoveValidator::isGameOver(getChessBoard(), *turn_)) {
+        gameState_ = GameState::FINISHED;
+    }
+    auto retMove = std::shared_ptr<Move>(list[index]);
+    return retMove;
 }
 
 std::shared_ptr<Move> Game::createMove(std::string moveString)

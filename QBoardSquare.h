@@ -16,7 +16,8 @@ public:
     QEngine& engine = QEngine::getInstance();
     std::pair<int, int> from;
     std::pair<int, int> to;
-
+    QPiece *getPiece();
+    void setColor(Color color);
     void setPiece(QPiece* piece);
     void removePiece();
 };

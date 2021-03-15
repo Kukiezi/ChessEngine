@@ -13,6 +13,7 @@ public:
 
     bool makeMove(std::string move);
     bool makeMove(std::pair<int, int> from, std::pair<int, int> to);
+    std::shared_ptr<Move> getAIMove();
     Color getTurn();
     ChessBoard* getChessBoard() const;
     Game* getGame();

@@ -5,7 +5,8 @@ Turn::Turn(QGraphicsItem *parent) : QGraphicsTextItem(parent)
     turn_ = Color::White;
     setPlainText(QString("Turn: ") + QString::fromUtf8(getTurn()));
     setDefaultTextColor(Qt::white);
-    setFont(QFont("times", 16));
+    setFont(QFont("times", 24));
+    setPos(850, 100);
 }
 
 void Turn::setTurn(Color turn)

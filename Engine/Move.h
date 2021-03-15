@@ -21,10 +21,13 @@ public:
     std::pair<int, int> from;
     std::pair<int, int> to;
     std::unique_ptr<ChessBoard> chessBoard;
+    bool isCastleMove;
+    std::pair<int, int> castleFrom;
+    std::pair<int, int> castleTo;
 
 
     Move(std::string move);
-    Move(std::pair<int, int> from, std::pair<int, int> to);
+    Move(std::pair<int, int> from, std::pair<int, int> to, bool castle = false);
 
     void setMove(std::string move);
     bool isMoveCoordinatesValid();

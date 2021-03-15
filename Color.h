@@ -3,6 +3,8 @@ enum Color
 {
     White,
     Black,
-    Brown
+    Brown,
+    MOVE_FROM,
+    MOVE_TO
 };
 

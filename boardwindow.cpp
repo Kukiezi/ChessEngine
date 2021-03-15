@@ -43,6 +43,7 @@ void BoardWindow::on_pushButton_clicked()
 //   scene->addItem(item);
 
    ChessGraphicsView* view = new ChessGraphicsView(scene);
+   view->setSceneRect(scene->sceneRect());
    view->setMinimumSize(1280, 960);
    view->show();
 }

@@ -13,6 +13,24 @@ QBoardSquare::QBoardSquare(Color color, int x, int y, int row, int col)
     this->setRect(0, 0, QBoardSquare::rectSize, QBoardSquare::rectSize);
 }
 
+QPiece *QBoardSquare::getPiece()
+{
+    return piece;
+}
+
+void QBoardSquare::setColor(Color color)
+{
+    if (color == Color::White) {
+        this->setBrush(Qt::white);
+    } else if (color == Color::Brown) {
+        this->setBrush(QColor("#964b00"));
+    } else if (color == Color::MOVE_FROM){
+        this->setBrush(QColor("#FFFACD"));
+    } else if (color == Color::MOVE_TO){
+        this->setBrush(QColor("#FFFF99"));
+    }
+}
+
 void QBoardSquare::setPiece(QPiece* piece)
 {
     if (this->piece != NULL) {

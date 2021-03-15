@@ -5,13 +5,15 @@ ChessBoard::ChessBoard() : boardSquares(8, std::vector<BoardSquare *>(8))
     for (int i = 0; i < 8; i++) {
         for (int j = 0; j < 8; j++) {
             if ((i + j) % 2 == 0) {
-                boardSquares[i][j] = new BoardSquare(Color::White);
+                boardSquares[i][j] = new BoardSquare(Color::White, i, j);
             } else {
-                boardSquares[i][j] = new BoardSquare(Color::Brown);
+                boardSquares[i][j] = new BoardSquare(Color::Brown, i, j);
             }
         }
     }
 }
+
+
 
 void ChessBoard::printChessBoard()
 {
