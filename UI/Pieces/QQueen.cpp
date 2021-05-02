@@ -1,6 +1,6 @@
 #include "QQueen.h"
 
-QQueen::QQueen(QGraphicsScene* scene, Color color) : QPiece(scene, color)
+QQueen::QQueen(Color color) : QPiece(color)
 {
     this->setImage();
     this->setPixmap(QPixmap(QString::fromUtf8(this->getImage())));

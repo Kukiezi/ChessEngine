@@ -8,23 +8,39 @@
 #include "Engine/Engine.h"
 #include "Turn.h"
 #include "QChessMenu.h"
+#include "QChessBackButton.h"
+#include "QChessForwardButton.h"
+#include "QMove.h"
+#include "QSavedGames.h"
+#include "QBackButton.h"
+#include "Engine/GameType.h"
+#include "QPositionInput.h"
+#include "QPositionButton.h"
 
 class QGame
 {
     QChessMenu* chessMenu;
     QChessBoard* board;
     std::string startingFen_;
-    std::shared_ptr<Turn> turn_;
+    Turn* turn_;
+    GameType gameType_;
+
 public:
-    QEngine& engine = QEngine::getInstance();
     QGame(std::string fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR");
-    std::shared_ptr<Turn> getTurn();
-    void startGame(QGraphicsScene* scene);
+    Turn* getTurn();
+    void startGame(GameType gameType, std::string fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR");
+    void startReplay(std::string path);
+    void getSavedGamesScreen();
     void resetSquareColors();
     QChessBoard* getChessBoard();
+    void MakeMoveBackward();
+    void MakeMoveForward();
+    void clearMemory();
+    GameType getGameType();
+    void getStartFromPositionScreen();
 
 private:
-    void initializeBoard(QGraphicsScene* scene, ChessBoard* chessBoard);
-    void initializePieces(QGraphicsScene* scene, ChessBoard* chessBoard);
-    QPiece *getPieceFromEngine(QGraphicsScene* scene, std::shared_ptr<Piece> piece);
+    void initializeBoard(ChessBoard* chessBoard);
+    void initializePieces(ChessBoard* chessBoard);
+    QPiece *getPieceFromEngine(std::shared_ptr<Piece> piece);
 };

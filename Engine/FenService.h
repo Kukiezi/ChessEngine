@@ -9,6 +9,7 @@ class FanService
 public:
     static void addPieceToBoardFromFenString(std::string fenString, std::shared_ptr<ChessBoard>& board);
     static std::unique_ptr<Piece> getPieceFromFen(char piece);
+    static std::string getStartingTurnFromFenString(std::string fenString);
 };
 
 #endif // FENSERVICE_H

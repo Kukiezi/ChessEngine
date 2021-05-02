@@ -1,24 +1,58 @@
 #include "QGame.h"
 #include <QGraphicsScene>
+#include <ChessGraphicsView.h>
+
+extern QGraphicsScene * scene;
+extern ChessGraphicsView* view;
+extern Engine * engine;
 
 QGame::QGame(std::__1::string fen)
 {
     this->startingFen_ = fen;
 }
 
-std::shared_ptr<Turn> QGame::getTurn()
+Turn* QGame::getTurn()
 {
     return turn_;
 }
 
-void QGame::startGame(QGraphicsScene* scene)
+void QGame::startGame(GameType gameType, std::string fen)
 {
+    this->gameType_ = gameType;
     this->board = new QChessBoard();
-    engine.getEngine()->startGame();
-    this->initializeBoard(scene, engine.getEngine()->getChessBoard());
-    turn_ = std::shared_ptr<Turn>(new Turn());
+    engine->startGame(fen, gameType);
+    this->initializeBoard(engine->getChessBoard());
+    auto startingTurn = engine->getTurn();
+    turn_ = new Turn();
+    turn_->setTurn(startingTurn);
     chessMenu = new QChessMenu();
-    scene->addItem(turn_.get());
+    scene->addItem(turn_);
+}
+
+void QGame::getSavedGamesScreen()
+{
+    auto backButton = new QBackButton;
+    scene->addItem(backButton);
+    scene->addItem(backButton->backLabel.get());
+    std::shared_ptr<QSavedGames> savedGames(new QSavedGames());
+    for (auto game : savedGames->savedGames) {
+        scene->addItem(game);
+        scene->addItem(game->gameLabel.get());
+    }
+
+}
+
+void QGame::startReplay(std::string path)
+{
+    this->gameType_ = GameType::REPLAY;
+    scene->clear();
+    engine = new Engine();
+    this->board = new QChessBoard();
+    engine->startReplay(path);
+    this->initializeBoard(engine->getChessBoard());
+    turn_ = new Turn();
+    chessMenu = new QChessMenu();
+    scene->addItem(turn_);
 }
 
 void QGame::resetSquareColors()
@@ -31,9 +65,81 @@ QChessBoard* QGame::getChessBoard()
     return board;
 }
 
-void QGame::initializeBoard(QGraphicsScene* scene, ChessBoard* chessBoard)
+void QGame::MakeMoveBackward()
 {
-    initializePieces(scene, chessBoard);
+    auto move = engine->makeMoveBackward();
+    if (move == NULL) {
+        return;
+    }
+    QMove* qMove = new QMove();
+    qMove->from = this->getChessBoard()->boardSquares[move->from.first][move->from.second];
+    qMove->to = this->getChessBoard()->boardSquares[move->to.first][move->to.second];
+    auto pieceToMove = this->getChessBoard()->boardSquares[move->from.first][move->from.second]->getPiece();
+    pieceToMove->setZValue(10);
+    qMove->to->setPiece(pieceToMove);
+    qMove->from->removePiece();
+    resetSquareColors();
+
+    delete qMove;
+}
+
+void QGame::MakeMoveForward()
+{
+    auto move = engine->makeMoveForward();
+    if (move == NULL) {
+        return;
+    }
+    QMove* qMove = new QMove();
+    qMove->from = this->getChessBoard()->boardSquares[move->from.first][move->from.second];
+    qMove->to = this->getChessBoard()->boardSquares[move->to.first][move->to.second];
+    auto pieceToMove = this->getChessBoard()->boardSquares[move->from.first][move->from.second]->getPiece();
+    pieceToMove->setZValue(10);
+    qMove->to->setPiece(pieceToMove);
+    qMove->from->removePiece();
+    resetSquareColors();
+    qMove->from->setColor(Color::MOVE_FROM);
+    qMove->to->setColor(Color::MOVE_TO);
+
+    if (pieceToMove->getName() == "King" && move->isCastleMove) {
+        QMove* qMove = new QMove();
+        qMove->from = this->getChessBoard()->boardSquares[move->castleFrom.first][move->castleFrom.second];
+        qMove->to = this->getChessBoard()->boardSquares[move->castleTo.first][move->castleTo.second];
+        auto pieceToMove = this->getChessBoard()->boardSquares[move->castleFrom.first][move->castleFrom.second]->getPiece();
+        pieceToMove->setZValue(10);
+        qMove->to->setPiece(pieceToMove);
+        qMove->from->removePiece();
+    }
+    delete qMove;
+}
+
+void QGame::clearMemory()
+{
+    delete this->board;
+    delete this->chessMenu;
+}
+
+GameType QGame::getGameType()
+{
+    return gameType_;
+}
+
+void QGame::getStartFromPositionScreen()
+{
+    QPositionInput* input = new QPositionInput();
+    QPositionButton* button = new QPositionButton(input);
+
+    auto backButton = new QBackButton;
+    scene->addItem(backButton);
+    scene->addItem(backButton->backLabel.get());
+    scene->addWidget(input);
+    scene->addItem(button);
+    scene->addItem(button->backLabel.get());
+}
+
+
+void QGame::initializeBoard(ChessBoard* chessBoard)
+{
+    initializePieces(chessBoard);
 
     for (int i = 7; i >= 0; i--) {
         for (int j = 0; j < 8; j++) {
@@ -43,39 +149,48 @@ void QGame::initializeBoard(QGraphicsScene* scene, ChessBoard* chessBoard)
             }
         }
     }
+
+    auto backButton = new QBackButton;
+    scene->addItem(backButton);
+    scene->addItem(backButton->backLabel.get());
     scene->addItem(new QChessMenu());
+    if (gameType_ == GameType::REPLAY) {
+        scene->addItem(new QChessBackButton());
+        scene->addItem(new QChessForwardButton());
+    }
+
 }
 
-void QGame::initializePieces(QGraphicsScene *scene, ChessBoard* chessBoard)
+void QGame::initializePieces(ChessBoard* chessBoard)
 {
     for (int x = 7; x >= 0; x--) {
         for (int y = 0; y < 8; y++) {
-            QPiece* pieceToAdd = getPieceFromEngine(scene, chessBoard->boardSquares[x][y]->getPiece());
+            QPiece* pieceToAdd = getPieceFromEngine(chessBoard->boardSquares[x][y]->getPiece());
             if (pieceToAdd != NULL) {
-                board->boardSquares[x][y]->setPiece(getPieceFromEngine(scene, chessBoard->boardSquares[x][y]->getPiece()));
+                board->boardSquares[x][y]->setPiece(getPieceFromEngine(chessBoard->boardSquares[x][y]->getPiece()));
             }
         }
     }
 }
 
-QPiece *QGame::getPieceFromEngine(QGraphicsScene* scene, std::shared_ptr<Piece> piece)
+QPiece *QGame::getPieceFromEngine(std::shared_ptr<Piece> piece)
 {
     if (piece == nullptr) {
         return NULL;
     }
 
     if (piece->getShortName() == "Q") {
-        return new QQueen(scene, piece->getColor());
+        return new QQueen(piece->getColor());
     } else if (piece->getShortName() == "R") {
-        return new QRook(scene, piece->getColor());
+        return new QRook(piece->getColor());
     } else if (piece->getShortName() == "B") {
-        return new QBishop(scene, piece->getColor());
+        return new QBishop(piece->getColor());
     } else if (piece->getShortName() == "P") {
-        return new QPawn(scene, piece->getColor());
+        return new QPawn(piece->getColor());
     } else if (piece->getShortName() == "N") {
-        return new QKnight(scene, piece->getColor());
+        return new QKnight(piece->getColor());
     } else if (piece->getShortName() == "K") {
-        return new QKing(scene, piece->getColor());
+        return new QKing(piece->getColor());
     }
 }
 

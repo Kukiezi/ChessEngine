@@ -1,6 +1,6 @@
 #include "QPawn.h"
 
-QPawn::QPawn(QGraphicsScene* scene, Color color) : QPiece(scene, color)
+QPawn::QPawn(Color color) : QPiece(color)
 {
     this->setImage();
     this->setPixmap(QPixmap(QString::fromUtf8(this->getImage())));

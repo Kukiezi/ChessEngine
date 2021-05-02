@@ -18,6 +18,17 @@ public:
         {'h', 7},
     };
 
+    std::map<int, char> indexToFieldChar = {
+        {0, 'a'},
+        {1, 'b'},
+        {2, 'c'},
+        {3, 'd'},
+        {4, 'e'},
+        {5, 'f'},
+        {6, 'g'},
+        {7, 'h'},
+    };
+
     std::pair<int, int> from;
     std::pair<int, int> to;
     std::unique_ptr<ChessBoard> chessBoard;
@@ -35,6 +46,8 @@ public:
     bool isEqual(Move* move);
 
     std::pair<int, int> getBoardCoordinatesFromChessCoordinates(std::string);
+    std::string getChessCoordinatesFromBoardCoordinates();
+    std::shared_ptr<Move> getConvertToBackwardMove();
 };
 
 #endif // MOVE_H

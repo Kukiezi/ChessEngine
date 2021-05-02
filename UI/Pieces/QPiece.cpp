@@ -5,19 +5,26 @@
 #include "QGame.h"
 
 extern QGame * game;
+extern QGraphicsScene * scene;
+extern Engine * engine;
 
-QPiece::QPiece(QGraphicsScene* scene, Color _color)
+QPiece::QPiece(Color _color)
 {
     setColor(_color);
     dragged_ = false;
-    setFlag(QGraphicsPixmapItem::ItemIsMovable);
-    setFlag(QGraphicsPixmapItem::ItemSendsGeometryChanges);
-    this->setScene(scene);
+    if (game->getGameType() != GameType::REPLAY) {
+        setFlag(QGraphicsPixmapItem::ItemIsMovable);
+        setFlag(QGraphicsPixmapItem::ItemSendsGeometryChanges);
+    }
+
     move = new QMove();
 }
 
 void QPiece::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
+    if (game->getGameType() == GameType::REPLAY) {
+        return;
+    }
     QList<QGraphicsItem*> colItems = collidingItems();
     auto rect = dynamic_cast<QBoardSquare*>(colItems[0]);
     move->from = rect;
@@ -26,6 +33,9 @@ void QPiece::mousePressEvent(QGraphicsSceneMouseEvent *event)
 
 void QPiece::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
+    if (game->getGameType() == GameType::REPLAY) {
+        return;
+    }
     this->dragged_ = true;
     this->setZValue(10);
     QGraphicsPixmapItem::mouseMoveEvent(event);
@@ -33,6 +43,9 @@ void QPiece::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 
 void QPiece::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
+    if (game->getGameType() == GameType::REPLAY) {
+        return;
+    }
     if (this->dragged_) {
         QList<QGraphicsItem*> colItems = collidingItems();
         if (colItems.isEmpty()) {
@@ -53,35 +66,43 @@ void QPiece::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
             }
             this->setPos(closestItem->scenePos());
             QBoardSquare* boardRect = dynamic_cast<QBoardSquare*>(closestItem);
-            this->to = std::make_pair(boardRect->row, boardRect->col);
-            if (!engine.getEngine()->makeMove(this->from, this->to)) {
-                this->setPos(this->anchorPoint);
-            } else {
-                move->to = boardRect;
-                boardRect->setPiece(this);
-                move->from->removePiece();
-                game->getTurn()->setTurn(engine.getEngine()->getTurn());
-                game->resetSquareColors();
-                move->from->setColor(Color::MOVE_FROM);
-                move->to->setColor(Color::MOVE_TO);
-                auto castleMove = engine.getEngine()->getGame()->getLastCastleMove();
-                if (castleMove != NULL) {
-                    auto pieceToCastle = game->getChessBoard()->boardSquares[castleMove->castleFrom.first][castleMove->castleFrom.second]->getPiece();
-                    game->getChessBoard()->boardSquares[castleMove->castleTo.first][castleMove->castleTo.second]->setPiece(pieceToCastle);
-                    game->getChessBoard()->boardSquares[castleMove->castleFrom.first][castleMove->castleFrom.second]->removePiece();
-                }
-                auto aiMove = engine.getEngine()->getAIMove();
-                if (aiMove != NULL) {
-                    auto aiPiece = game->getChessBoard()->boardSquares[aiMove->from.first][aiMove->from.second]->getPiece();
-                    aiPiece->setZValue(10);
-                    game->getChessBoard()->boardSquares[aiMove->to.first][aiMove->to.second]->setPiece(aiPiece);
-                    game->getChessBoard()->boardSquares[aiMove->from.first][aiMove->from.second]->removePiece();
-                    game->getTurn()->setTurn(engine.getEngine()->getTurn());
+
+            if (boardRect) {
+                this->to = std::make_pair(boardRect->row, boardRect->col);
+                if (!engine->makeMove(this->from, this->to)) {
+                    this->setPos(this->anchorPoint);
+                } else {
+                    move->to = boardRect;
+                    boardRect->setPiece(this);
+                    move->from->removePiece();
+                    game->getTurn()->setTurn(engine->getTurn());
                     game->resetSquareColors();
-                    game->getChessBoard()->boardSquares[aiMove->to.first][aiMove->to.second]->setColor(Color::MOVE_TO);
-                    game->getChessBoard()->boardSquares[aiMove->from.first][aiMove->from.second]->setColor(Color::MOVE_FROM);
+                    move->from->setColor(Color::MOVE_FROM);
+                    move->to->setColor(Color::MOVE_TO);
+                    auto castleMove = engine->getGame()->getLastCastleMove();
+                    if (castleMove != NULL) {
+                        auto pieceToCastle = game->getChessBoard()->boardSquares[castleMove->castleFrom.first][castleMove->castleFrom.second]->getPiece();
+                        game->getChessBoard()->boardSquares[castleMove->castleTo.first][castleMove->castleTo.second]->setPiece(pieceToCastle);
+                        game->getChessBoard()->boardSquares[castleMove->castleFrom.first][castleMove->castleFrom.second]->removePiece();
+                    }
+                    if (game->getGameType() == GameType::AI) {
+                        auto aiMove = engine->getAIMove();
+                        if (aiMove != NULL) {
+                            auto aiPiece = game->getChessBoard()->boardSquares[aiMove->from.first][aiMove->from.second]->getPiece();
+                            aiPiece->setZValue(10);
+                            game->getChessBoard()->boardSquares[aiMove->to.first][aiMove->to.second]->setPiece(aiPiece);
+                            game->getChessBoard()->boardSquares[aiMove->from.first][aiMove->from.second]->removePiece();
+                            game->getTurn()->setTurn(engine->getTurn());
+                            game->resetSquareColors();
+                            game->getChessBoard()->boardSquares[aiMove->to.first][aiMove->to.second]->setColor(Color::MOVE_TO);
+                            game->getChessBoard()->boardSquares[aiMove->from.first][aiMove->from.second]->setColor(Color::MOVE_FROM);
+                        }
+                    }
                 }
+            } else {
+                this->setPos(this->anchorPoint);
             }
+
         }
         this->dragged_ = false;
     }
@@ -117,11 +138,6 @@ void QPiece::setAnchorPoint(const QPoint &anchorPoint)
 void QPiece::setColor(Color color)
 {
     color_ = color;
-}
-
-void QPiece::setScene(QGraphicsScene *scene)
-{
-    this->scene_ = scene;
 }
 
 QGraphicsScene *QPiece::getScene()

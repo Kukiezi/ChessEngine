@@ -2,7 +2,7 @@ QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-CONFIG += c++14
+CONFIG += c++17
 
 # You can make your code fail to compile if it uses deprecated APIs.
 # In order to do so, uncomment the following line.
@@ -21,19 +21,30 @@ SOURCES += \
     Engine/Pieces/Bishop.cpp \
     Engine/Pieces/King.cpp \
     Engine/Pieces/Knight.cpp \
+    Engine/Pieces/KnightMoveGenerator.cpp \
     Engine/Pieces/Pawn.cpp \
     Engine/Pieces/Piece.cpp \
     Engine/Pieces/Queen.cpp \
     Engine/Pieces/Rook.cpp \
+    Engine/ReplayGame.cpp \
     Fen.cpp \
     Color.cpp \
     Consts.cpp \
+    QBackButton.cpp \
     QBoardSquare.cpp \
+    QChessBackButton.cpp \
     QChessBoard.cpp \
+    QChessForwardButton.cpp \
     QChessMenu.cpp \
     QEngine.cpp \
     QGame.cpp \
     QMove.cpp \
+    QPositionButton.cpp \
+    QPositionInput.cpp \
+    QReplayGame.cpp \
+    QSavedGame.cpp \
+    QSavedGameText.cpp \
+    QSavedGames.cpp \
     Turn.cpp \
     UI/Pieces/QBishop.cpp \
     UI/Pieces/QKing.cpp \
@@ -53,26 +64,38 @@ HEADERS += \
     Engine/FenService.h \
     Engine/Game.h \
     Engine/GameState.h \
+    Engine/GameType.h \
     Engine/Move.h \
     Engine/MoveGenerator.h \
     Engine/MoveValidator.h \
     Engine/Pieces/Bishop.h \
     Engine/Pieces/King.h \
     Engine/Pieces/Knight.h \
+    Engine/Pieces/KnightMoveGenerator.h \
     Engine/Pieces/Pawn.h \
     Engine/Pieces/Piece.h \
     Engine/Pieces/Pieces.h \
     Engine/Pieces/Queen.h \
     Engine/Pieces/Rook.h \
+    Engine/ReplayGame.h \
     Fen.h \
     Color.h \
     Consts.h \
+    QBackButton.h \
     QBoardSquare.h \
+    QChessBackButton.h \
     QChessBoard.h \
+    QChessForwardButton.h \
     QChessMenu.h \
     QEngine.h \
     QGame.h \
     QMove.h \
+    QPositionButton.h \
+    QPositionInput.h \
+    QReplayGame.h \
+    QSavedGame.h \
+    QSavedGameText.h \
+    QSavedGames.h \
     Turn.h \
     UI/Pieces/QBishop.h \
     UI/Pieces/QKing.h \

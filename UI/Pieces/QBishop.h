@@ -8,7 +8,7 @@ class QBishop: public QPiece
     std::string image_;
     int value_ = 3;
 public:
-    QBishop(QGraphicsScene* scene, Color color);
+    QBishop(Color color);
 
     std::string getName() const override;
     std::string getImage() const override;

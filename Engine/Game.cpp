@@ -1,9 +1,16 @@
 #include "Game.h"
 
-Game::Game(std::__1::string fenString)
+Game::Game(std::__1::string fenString, GameType gameType)
 {
     setChessBoard(std::make_unique<ChessBoard>());
     FanService::addPieceToBoardFromFenString(fenString, chessBoard_);
+    std::string turn = FanService::getStartingTurnFromFenString(fenString);
+    this->gameType = gameType;
+    if (turn == "w") {
+        turn_ = &player1_;
+    } else {
+        turn_ = &player2_;
+    }
     gameState_ = GameState::IN_PROGRESS;
 }
 
@@ -62,9 +69,24 @@ bool Game::makeMove(std::shared_ptr<Move> move)
     setNextTurn();
 
     listOfMoves.push_back(move);
+    listOfMovesInPGN.push_back(move->getChessCoordinatesFromBoardCoordinates());
+
     if (MoveValidator::isGameOver(getChessBoard(), *turn_)) {
         gameState_ = GameState::FINISHED;
+        if (gameType == GameType::NORMAL || gameType == GameType::AI) {
+            exportGameToFile();
+        }
     }
+
+    return true;
+}
+
+bool Game::makeMoveWithoutLegalChecks(std::shared_ptr<Move> move)
+{
+    auto piece = chessBoard_->boardSquares[move->from.first][move->from.second]->getPiece();
+
+    chessBoard_->boardSquares[move->to.first][move->to.second]->setPiece(piece);
+    chessBoard_->boardSquares[move->from.first][move->from.second]->resetPiece();
     return true;
 }
 
@@ -99,8 +121,13 @@ std::shared_ptr<Move> Game::getAIMove()
     piece->setMoved(true);
     setNextTurn();
 
+    listOfMovesInPGN.push_back(move->getChessCoordinatesFromBoardCoordinates());
+
     if (MoveValidator::isGameOver(getChessBoard(), *turn_)) {
         gameState_ = GameState::FINISHED;
+        if (gameType == GameType::NORMAL || gameType == GameType::AI) {
+            exportGameToFile();
+        }
     }
     auto retMove = std::shared_ptr<Move>(list[index]);
     return retMove;
@@ -131,5 +158,20 @@ void Game::printChessBoard()
 Color Game::getTurn()
 {
     return *turn_;
+}
+
+std::unique_ptr<Game> Game::getGame()
+{
+    return std::unique_ptr<Game>(this);
+}
+
+bool Game::exportGameToFile()
+{
+    std::ofstream outfile ("Game" + std::to_string(std::time(0)) + ".txt");
+    for (auto move : listOfMovesInPGN) {
+        outfile << move<< std::endl;
+    }
+    outfile.close();
+    return true;
 }
 

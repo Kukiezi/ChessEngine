@@ -8,7 +8,7 @@ class QKing: public QPiece
     std::string image_;
     int value_ = 0;
 public:
-    QKing(QGraphicsScene* scene, Color color);
+    QKing(Color color);
 
     std::string getName() const override;
     std::string getImage() const override;

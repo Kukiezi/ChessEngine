@@ -1,6 +1,6 @@
 #include "QBishop.h"
 
-QBishop::QBishop(QGraphicsScene* scene, Color color) : QPiece(scene, color)
+QBishop::QBishop(Color color) : QPiece(color)
 {
     this->setImage();
     this->setPixmap(QPixmap(QString::fromUtf8(this->getImage())));

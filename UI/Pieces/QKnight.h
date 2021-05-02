@@ -8,7 +8,7 @@ class QKnight: public QPiece
     std::string image_;
     int value_ = 3;
 public:
-    QKnight(QGraphicsScene* scene, Color color);
+    QKnight(Color color);
 
     std::string getName() const override;
     std::string getImage() const override;

@@ -75,3 +75,21 @@ std::pair<int, int> Move::getBoardCoordinatesFromChessCoordinates(std::string co
         return std::make_pair(-1, -1);
     }
 }
+
+std::string Move::getChessCoordinatesFromBoardCoordinates()
+{
+    char a = indexToFieldChar[this->from.second];
+    int b = this->from.first + 1;
+
+    char c = indexToFieldChar[this->to.second];
+    char d = this->to.first + 1;
+    std::string pgnMove = "";
+    pgnMove = a + std::to_string(b) + c + std::to_string(d);
+    return pgnMove;
+}
+
+std::shared_ptr<Move> Move::getConvertToBackwardMove()
+{
+    std::shared_ptr<Move> move (new Move(std::make_pair(this->to.first, this->to.second), std::make_pair(this->from.first, this->from.second)));
+    return move;
+}

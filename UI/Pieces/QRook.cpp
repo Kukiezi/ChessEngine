@@ -1,6 +1,6 @@
 #include "QRook.h"
 
-QRook::QRook(QGraphicsScene* scene, Color color) : QPiece(scene, color)
+QRook::QRook(Color color) : QPiece(color)
 {
     this->setImage();
     this->setPixmap(QPixmap(QString::fromUtf8(this->getImage())));

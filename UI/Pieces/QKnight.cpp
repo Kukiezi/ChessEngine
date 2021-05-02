@@ -1,6 +1,6 @@
 #include "QKnight.h"
 
-QKnight::QKnight(QGraphicsScene* scene, Color color) : QPiece(scene, color)
+QKnight::QKnight(Color color) : QPiece(color)
 {
     this->setImage();
     this->setPixmap(QPixmap(QString::fromUtf8(this->getImage())));

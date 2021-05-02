@@ -8,7 +8,7 @@ class QPawn: public QPiece
     std::string image_;
     int value_ = 1;
 public:
-    QPawn(QGraphicsScene* scene, Color color);
+    QPawn(Color color);
 
     std::string getName() const override;
     std::string getImage() const override;

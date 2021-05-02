@@ -8,7 +8,7 @@ class QRook: public QPiece
     std::string image_;
     int value_ = 5;
 public:
-    QRook(QGraphicsScene* scene, Color color);
+    QRook(Color color);
 
     std::string getName() const override;
     std::string getImage() const override;

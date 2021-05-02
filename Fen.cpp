@@ -31,42 +31,42 @@ QPiece* FenReader::getPieceFromFen(char piece, QGraphicsScene* scene)
     switch(piece)
     {
         case 'r':
-            return new QRook(scene, Color::Black);
+            return new QRook(Color::Black);
             break;
         case 'R':
-            return new QRook(scene, Color::White);
+            return new QRook(Color::White);
             break;
         case 'n':
-            return new QKnight(scene, Color::Black);
+            return new QKnight(Color::Black);
             break;
         case 'N':
-            return new QKnight(scene, Color::White);
+            return new QKnight(Color::White);
             break;
         case 'b':
-            return new QBishop(scene, Color::Black);
+            return new QBishop(Color::Black);
             break;
         case 'B':
-            return new QBishop(scene, Color::White);
+            return new QBishop(Color::White);
             break;
         case 'q':
-            return new QQueen(scene, Color::Black);
+            return new QQueen(Color::Black);
             break;
         case 'Q':
-            return new QQueen(scene, Color::White);
+            return new QQueen(Color::White);
             break;
         case 'k':
-            return new QKing(scene, Color::Black);
+            return new QKing(Color::Black);
             break;
         case 'K':
-            return new QKing(scene, Color::White);
+            return new QKing(Color::White);
             break;
         case 'p':
-            return new QPawn(scene, Color::Black);
+            return new QPawn(Color::Black);
             break;
         case 'P':
-            return new QPawn(scene, Color::White);
+            return new QPawn(Color::White);
             break;
         default:
-            return new QKing(scene, Color::White);
+            return new QKing(Color::White);
     }
 }

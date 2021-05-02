@@ -1,6 +1,6 @@
 #include "QKing.h"
 
-QKing::QKing(QGraphicsScene* scene, Color color) : QPiece(scene, color)
+QKing::QKing(Color color) : QPiece(color)
 {
     this->setImage();
     this->setPixmap(QPixmap(QString::fromUtf8(this->getImage())));

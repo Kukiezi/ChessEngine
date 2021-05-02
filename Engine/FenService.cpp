@@ -76,3 +76,12 @@ std::unique_ptr<Piece> FanService::getPieceFromFen(char piece)
     }
 }
 
+std::string FanService::getStartingTurnFromFenString(std::string fenString)
+{
+    auto index = fenString.find(" ");
+    if (index == std::string::npos) {
+        return "w";
+    }
+    return fenString.substr(index + 1, index + 2);
+}
+

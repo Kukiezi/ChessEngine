@@ -3,6 +3,7 @@
 #include <QGraphicsSceneDragDropEvent>
 #include <QGraphicsRectItem>
 
+
 QBoardSquare::QBoardSquare(Color color, int x, int y, int row, int col)
 {
     this->row = row;
@@ -33,8 +34,9 @@ void QBoardSquare::setColor(Color color)
 
 void QBoardSquare::setPiece(QPiece* piece)
 {
+    extern QGraphicsScene* scene;
     if (this->piece != NULL) {
-        this->piece->getScene()->removeItem(this->piece);
+        scene->removeItem(this->piece);
     }
     this->piece = piece;
     this->piece->setPos(this->pos().x(), this->pos().y());

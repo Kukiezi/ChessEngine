@@ -2,8 +2,9 @@
 #define PIECE_H
 
 #include <string>
-#include "../../Color.h"
 #include <vector>
+#include "../../Color.h"
+
 
 class Piece
 {

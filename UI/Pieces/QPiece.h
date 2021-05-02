@@ -20,10 +20,9 @@ class QPiece : public QGraphicsPixmapItem
 public:
     QPoint anchorPoint;
     bool dragged_;
-    QEngine& engine = QEngine::getInstance();
     class QMove* move;
 
-    QPiece(QGraphicsScene* scene, Color _color);
+    QPiece(Color _color);
 
     virtual std::string getName() const;
     virtual std::string getImage() const;
@@ -32,7 +31,6 @@ public:
 
     void setAnchorPoint(const QPoint& anchorPoint);
     void setColor(Color color);
-    void setScene(QGraphicsScene* scene);
     QGraphicsScene* getScene();
     virtual void setImage();
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *event) override;

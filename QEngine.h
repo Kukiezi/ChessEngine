@@ -18,6 +18,7 @@ private:
     std::shared_ptr<Engine> engine = std::make_shared<Engine>();
 
 public:
+    void setNewEngine();
     QEngine(QEngine const&) = delete;
     void operator=(QEngine const&) = delete;
 };
