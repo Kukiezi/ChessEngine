@@ -21,7 +21,6 @@ SOURCES += \
     Engine/Pieces/Bishop.cpp \
     Engine/Pieces/King.cpp \
     Engine/Pieces/Knight.cpp \
-    Engine/Pieces/KnightMoveGenerator.cpp \
     Engine/Pieces/Pawn.cpp \
     Engine/Pieces/Piece.cpp \
     Engine/Pieces/Queen.cpp \
@@ -29,7 +28,6 @@ SOURCES += \
     Engine/ReplayGame.cpp \
     Fen.cpp \
     Color.cpp \
-    Consts.cpp \
     QBackButton.cpp \
     QBoardSquare.cpp \
     QChessBackButton.cpp \
@@ -71,7 +69,6 @@ HEADERS += \
     Engine/Pieces/Bishop.h \
     Engine/Pieces/King.h \
     Engine/Pieces/Knight.h \
-    Engine/Pieces/KnightMoveGenerator.h \
     Engine/Pieces/Pawn.h \
     Engine/Pieces/Piece.h \
     Engine/Pieces/Pieces.h \
@@ -80,7 +77,6 @@ HEADERS += \
     Engine/ReplayGame.h \
     Fen.h \
     Color.h \
-    Consts.h \
     QBackButton.h \
     QBoardSquare.h \
     QChessBackButton.h \

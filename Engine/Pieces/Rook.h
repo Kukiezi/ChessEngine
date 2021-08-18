@@ -3,6 +3,10 @@
 #include "Piece.h"
 #include <vector>
 
+//!  A piece class.
+/*!
+  This class represent a chess piece called Rook It is a simple class that defined neccesary getters and setters.
+*/
 class Rook: public Piece
 {
     std::string name_ = "Rook";
@@ -13,8 +17,16 @@ class Rook: public Piece
     bool moved_ = false;
 
 public:
+    //! A constructor.
+    /*!
+      This constructor accepts color and calls parent's constructor to initiate the Piece color.
+    */
     Rook(Color color);
 
+    //! Public Methods.
+    /*!
+      Getters and Setters for the private fields.
+    */
     bool didPieceMove() const override;
     void setMoved(bool moved) override;
     std::string getName() const override;

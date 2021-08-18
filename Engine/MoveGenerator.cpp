@@ -277,7 +277,7 @@ void MoveGenerator::generateLegalCastleMovesForKing(ChessBoard *chessBoard, std:
                     break;
                 }
                 if (col == 0 && chessBoard->boardSquares[row][col]->getPiece() != nullptr && !chessBoard->boardSquares[row][col]->getPiece()->didPieceMove() && !isSquareUnderAttack(row, col, attackedSquares)) {
-                    legalMoves.push_back(new Move(std::make_pair(0, 4), std::make_pair(row, col + 1), true));
+                    legalMoves.push_back(new Move(std::make_pair(0, 4), std::make_pair(row, col + 1)));
                 }
                 if (chessBoard->boardSquares[row][col]->getPiece() != nullptr || isSquareUnderAttack(row, col, attackedSquares)) {
                     break;
@@ -292,7 +292,7 @@ void MoveGenerator::generateLegalCastleMovesForKing(ChessBoard *chessBoard, std:
                     break;
                 }
                 if (col == 7 && chessBoard->boardSquares[row][col]->getPiece() != nullptr && !chessBoard->boardSquares[row][col]->getPiece()->didPieceMove() && !isSquareUnderAttack(row, col, attackedSquares)) {
-                    legalMoves.push_back(new Move(std::make_pair(0, 4), std::make_pair(row, col - 1), true));
+                    legalMoves.push_back(new Move(std::make_pair(0, 4), std::make_pair(row, col - 1)));
                 }
                 if (chessBoard->boardSquares[row][col]->getPiece() != nullptr || isSquareUnderAttack(row, col, attackedSquares)) {
                     break;
@@ -308,7 +308,7 @@ void MoveGenerator::generateLegalCastleMovesForKing(ChessBoard *chessBoard, std:
                     break;
                 }
                 if (col == 0 && chessBoard->boardSquares[row][col]->getPiece() != nullptr && !chessBoard->boardSquares[row][col]->getPiece()->didPieceMove() && !isSquareUnderAttack(row, col, attackedSquares)) {
-                    legalMoves.push_back(new Move(std::make_pair(7, 4), std::make_pair(row, col + 1), true));
+                    legalMoves.push_back(new Move(std::make_pair(7, 4), std::make_pair(row, col + 1)));
                 }
                 if (chessBoard->boardSquares[row][col]->getPiece() != nullptr || isSquareUnderAttack(row, col, attackedSquares)) {
                     break;
@@ -323,7 +323,7 @@ void MoveGenerator::generateLegalCastleMovesForKing(ChessBoard *chessBoard, std:
                     break;
                 }
                 if (col == 7 && chessBoard->boardSquares[row][col]->getPiece() != nullptr && !chessBoard->boardSquares[row][col]->getPiece()->didPieceMove() && !isSquareUnderAttack(row, col, attackedSquares)) {
-                    legalMoves.push_back(new Move(std::make_pair(7, 4), std::make_pair(row, col - 1), true));
+                    legalMoves.push_back(new Move(std::make_pair(7, 4), std::make_pair(row, col - 1)));
                 }
                 if (chessBoard->boardSquares[row][col]->getPiece() != nullptr || isSquareUnderAttack(row, col, attackedSquares)) {
                     break;

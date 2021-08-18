@@ -5,7 +5,7 @@ Move::Move(std::__1::string move)
     setMove(move);
 }
 
-Move::Move(std::pair<int, int> from, std::pair<int, int> to, bool castle)
+Move::Move(std::pair<int, int> from, std::pair<int, int> to)
 {
     this->from = from;
     this->to = to;

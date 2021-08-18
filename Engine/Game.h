@@ -17,6 +17,10 @@
 #include <QDir>
 #include "GameType.h"
 
+//!  The Game instance class.
+/*!
+  This class stores and provides methods/fields about the current chess game.
+*/
 class Game
 {
 std::vector<std::shared_ptr<Move>> listOfMoves;

@@ -5,7 +5,10 @@
 #include <vector>
 #include "../../Color.h"
 
-
+//!  A piece base class.
+/*!
+  This class represent a chess piece. It provides abstraction for all the pieces.
+*/
 class Piece
 {
 std::string name_;
@@ -16,7 +19,10 @@ std::vector<std::vector<int>> directionsOffsets_;
 bool moved_;
 
 public:
-
+    //! A constructor.
+    /*!
+      This constructor accepts color and calls parent's constructor to initiate the Piece color.
+    */
     Piece(Color color);
 
     virtual std::vector<std::vector<int>> getDirectionsOffsets() const;
@@ -33,7 +39,6 @@ public:
 
     virtual bool didPieceMove() const;
     virtual void setMoved(bool moved);
-
 };
 
 #endif // PIECE_H

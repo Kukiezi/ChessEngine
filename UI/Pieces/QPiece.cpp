@@ -5,7 +5,7 @@
 #include "QGame.h"
 
 extern QGame * game;
-extern QGraphicsScene * scene;
+
 extern Engine * engine;
 
 QPiece::QPiece(Color _color)
@@ -43,6 +43,7 @@ void QPiece::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 
 void QPiece::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
+    extern QGraphicsScene * scene;
     if (game->getGameType() == GameType::REPLAY) {
         return;
     }
@@ -75,6 +76,22 @@ void QPiece::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
                     move->to = boardRect;
                     boardRect->setPiece(this);
                     move->from->removePiece();
+                    std::cout << this->getColor() << std::endl;
+                    std::cout << boardRect->row << std::endl;
+                    std::cout << this->getName() << std::endl;
+
+                    // Transform pawn to queen if reached the other side of the board
+                    if (this->getColor() == Color::White && boardRect->row == 7 && this->getName() == "Pawn") {
+                        QPiece* pieceToAdd = new QQueen(Color::White);
+                        boardRect->setPiece(pieceToAdd);
+                        scene->addItem(pieceToAdd);
+                    }
+                    if (this->getColor() == Color::Black && boardRect->row == 0 && this->getName() == "Pawn") {
+                        QPiece* pieceToAdd = new QQueen(Color::Black);
+                        boardRect->setPiece(pieceToAdd);
+                        scene->addItem(pieceToAdd);
+                    }
+
                     game->getTurn()->setTurn(engine->getTurn());
                     game->resetSquareColors();
                     move->from->setColor(Color::MOVE_FROM);

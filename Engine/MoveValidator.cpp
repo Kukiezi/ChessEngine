@@ -16,6 +16,8 @@ bool MoveValidator::isMoveLegal(ChessBoard* chessBoard, std::shared_ptr<Move> mo
 
     auto legalMoves = MoveGenerator::generateAllLegalMoves(chessBoard, friendlyPieceColor);
 
+    // Simulate all legal moves one ahead to find situations where move is illegal because piece
+    // is blocking king from check
     for (std::list<Move*>::iterator it = legalMoves.begin(); it != legalMoves.end(); ++it){
         std::pair<int, int> from = std::make_pair((*it)->from.first, (*it)->from.second);
         std::pair<int, int> to = std::make_pair((*it)->to.first, (*it)->to.second);

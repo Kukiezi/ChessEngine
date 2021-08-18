@@ -4,6 +4,10 @@
 #include "ChessBoard.h"
 #include "Pieces/Pieces.h"
 
+//!  A class that implements FEN methods
+/*!
+  This class provides methods that are needed to decode/read FEN strings.
+*/
 class FanService
 {
 public:

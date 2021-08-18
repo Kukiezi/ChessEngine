@@ -2,6 +2,10 @@
 #define PAWN_H
 #include "Piece.h"
 
+//!  A piece class.
+/*!
+  This class represent a chess piece called Pawn It is a simple class that defined neccesary getters and setters.
+*/
 class Pawn: public Piece
 {
     std::string name_ = "Pawn";
@@ -11,8 +15,16 @@ class Pawn: public Piece
     bool moved_ = false;
 
 public:
+    //! A constructor.
+    /*!
+      This constructor accepts color and calls parent's constructor to initiate the Piece color.
+    */
     Pawn(Color color);
 
+    //! Public Methods.
+    /*!
+      Getters and Setters for the private fields.
+    */
     bool didPieceMove() const override;
     void setMoved(bool moved) override;
     std::string getName() const override;

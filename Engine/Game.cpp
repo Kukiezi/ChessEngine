@@ -65,6 +65,20 @@ bool Game::makeMove(std::shared_ptr<Move> move)
         castlePiece->setMoved(true);
     }
 
+    // Transform pawn to queen if reached the other side of the board
+    if (piece->getShortName() == "P" && *turn_ == Color::White && move->to.first == 7) {
+        std::cout << "wszedlem" << std::endl;
+        chessBoard_->boardSquares[move->to.first][move->to.second]->resetPiece();
+        std::shared_ptr<Piece> newPiece = std::make_unique<Queen>(Color::White);
+        chessBoard_->boardSquares[move->to.first][move->to.second]->setPiece(newPiece);
+    }
+    if (piece->getShortName() == "P" && *turn_ == Color::Black && move->to.first == 0) {
+        std::cout << "wszedlem" << std::endl;
+        chessBoard_->boardSquares[move->to.first][move->to.second]->resetPiece();
+        std::shared_ptr<Piece> newPiece = std::make_unique<Queen>(Color::Black);
+        chessBoard_->boardSquares[move->to.first][move->to.second]->setPiece(newPiece);
+    }
+
     piece->setMoved(true);
     setNextTurn();
 

@@ -2,6 +2,10 @@
 #define REPLAYGAME_H
 #include "Game.h"
 
+//!  A ReplayGame class.
+/*!
+  This class inherits from Game and provides extra functionality to run replays
+*/
 class ReplayGame : public Game
 {
 public:
