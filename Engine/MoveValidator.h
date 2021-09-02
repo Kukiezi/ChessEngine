@@ -28,6 +28,7 @@ public:
     */
     static std::list<Move*> getAllLegalMoves(ChessBoard* chessBoard, Color friendlyPieceColor);
 private:
+    static std::list<Move*> performTheLegalMovesAndEraseThoseThatCauseCheckOnFriendlyKing(std::list<Move*> legalMoves, ChessBoard* chessBoard, Color friendlyPieceColor);
     static bool isPieceOnStartingSquareFriendly(std::shared_ptr<Piece> piece, Color friendlyPieceColor);
 };
 
