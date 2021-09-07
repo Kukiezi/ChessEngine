@@ -5,6 +5,7 @@ enum Color
     Black,
     Brown,
     MOVE_FROM,
-    MOVE_TO
+    MOVE_TO,
+    GAME_OVER,
 };
 

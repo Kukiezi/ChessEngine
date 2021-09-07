@@ -25,6 +25,7 @@ void QPiece::mousePressEvent(QGraphicsSceneMouseEvent *event)
     if (game->getGameType() == GameType::REPLAY) {
         return;
     }
+
     QList<QGraphicsItem*> colItems = collidingItems();
     auto rect = dynamic_cast<QBoardSquare*>(colItems[0]);
     move->from = rect;
@@ -36,6 +37,7 @@ void QPiece::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
     if (game->getGameType() == GameType::REPLAY) {
         return;
     }
+
     this->dragged_ = true;
     this->setZValue(10);
     QGraphicsPixmapItem::mouseMoveEvent(event);
@@ -47,6 +49,10 @@ void QPiece::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
     if (game->getGameType() == GameType::REPLAY) {
         return;
     }
+//    if (engine->isGameOver()) {
+//        game->getTurn()->setTurn(GAME_OVER);
+//        return;
+//    }
     if (this->dragged_) {
         QList<QGraphicsItem*> colItems = collidingItems();
         if (colItems.isEmpty()) {

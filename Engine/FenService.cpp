@@ -1,6 +1,6 @@
 #include "FenService.h"
 
-void FanService::addPieceToBoardFromFenString(std::__1::string fenString, std::shared_ptr<ChessBoard>& chessBoard)
+void FenService::addPieceToBoardFromFenString(std::__1::string fenString, std::shared_ptr<ChessBoard>& chessBoard)
 {
     int count = 0;
     int skip = 0;
@@ -31,7 +31,7 @@ void FanService::addPieceToBoardFromFenString(std::__1::string fenString, std::s
        }
 }
 
-std::unique_ptr<Piece> FanService::getPieceFromFen(char piece)
+std::unique_ptr<Piece> FenService::getPieceFromFen(char piece)
 {
     switch(piece)
     {
@@ -76,7 +76,7 @@ std::unique_ptr<Piece> FanService::getPieceFromFen(char piece)
     }
 }
 
-std::string FanService::getStartingTurnFromFenString(std::string fenString)
+std::string FenService::getStartingTurnFromFenString(std::string fenString)
 {
     auto index = fenString.find(" ");
     if (index == std::string::npos) {

@@ -50,9 +50,7 @@ void QGame::startReplay(std::string path)
     this->board = new QChessBoard();
     engine->startReplay(path);
     this->initializeBoard(engine->getChessBoard());
-    turn_ = new Turn();
     chessMenu = new QChessMenu();
-    scene->addItem(turn_);
 }
 
 void QGame::resetSquareColors()
@@ -154,9 +152,14 @@ void QGame::initializeBoard(ChessBoard* chessBoard)
     scene->addItem(backButton);
     scene->addItem(backButton->backLabel.get());
     scene->addItem(new QChessMenu());
+
     if (gameType_ == GameType::REPLAY) {
-        scene->addItem(new QChessBackButton());
-        scene->addItem(new QChessForwardButton());
+        auto chessBackButton = new QChessBackButton();
+        auto chessForwardButton = new QChessForwardButton();
+        scene->addItem(chessBackButton);
+        scene->addItem(chessBackButton->label.get());
+        scene->addItem(chessForwardButton);
+        scene->addItem(chessForwardButton->label.get());
     }
 
 }

@@ -4,10 +4,13 @@
 #include <QGraphicsView>
 #include "Color.h"
 #include "QGame.h"
+#include "QSavedGameText.h"
 
 class QChessBackButton : public QGraphicsRectItem
 {
 public:
+    std::unique_ptr<QSavedGameText> label;
+
     QChessBackButton();
 
     void mousePressEvent(QGraphicsSceneMouseEvent *event) override;

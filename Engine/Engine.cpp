@@ -91,6 +91,11 @@ std::list<std::map<std::string, std::string>> Engine::getSavedGames()
     return savedGamesMap;
 }
 
+bool Engine::isGameOver()
+{
+    getGame()->isGameOver();
+}
+
 GameType Engine::getGameType()
 {
     return getGame()->gameType;

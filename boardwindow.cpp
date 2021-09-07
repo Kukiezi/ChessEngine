@@ -24,7 +24,6 @@ BoardWindow::BoardWindow(QWidget *parent)
     scene = new QGraphicsScene();
     scene->setBackgroundBrush(QColor("#18191A"));
     scene->setSceneRect(0, 0, 1280, 960);
-
 }
 
 void BoardWindow::setupUi()

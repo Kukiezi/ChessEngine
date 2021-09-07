@@ -20,5 +20,8 @@ std::string Turn::getTurn()
     if (turn_ == Color::White) {
         return "White";
     }
+    if (turn_ == Color::GAME_OVER) {
+        return "Game Finished";
+    }
     return "Black";
 }

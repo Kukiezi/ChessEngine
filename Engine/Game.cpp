@@ -3,8 +3,8 @@
 Game::Game(std::__1::string fenString, GameType gameType)
 {
     setChessBoard(std::make_unique<ChessBoard>());
-    FanService::addPieceToBoardFromFenString(fenString, chessBoard_);
-    std::string turn = FanService::getStartingTurnFromFenString(fenString);
+    FenService::addPieceToBoardFromFenString(fenString, chessBoard_);
+    std::string turn = FenService::getStartingTurnFromFenString(fenString);
     this->gameType = gameType;
     if (turn == "w") {
         turn_ = &player1_;
@@ -90,6 +90,7 @@ bool Game::makeMove(std::shared_ptr<Move> move)
         if (gameType == GameType::NORMAL || gameType == GameType::AI) {
             exportGameToFile();
         }
+        turn_ = &gameOver_;
     }
 
     return true;
@@ -142,6 +143,7 @@ std::shared_ptr<Move> Game::getAIMove()
         if (gameType == GameType::NORMAL || gameType == GameType::AI) {
             exportGameToFile();
         }
+        turn_ = &gameOver_;
     }
     auto retMove = std::shared_ptr<Move>(list[index]);
     return retMove;
@@ -187,5 +189,10 @@ bool Game::exportGameToFile()
     }
     outfile.close();
     return true;
+}
+
+bool Game::isGameOver()
+{
+    return gameState_ == GameState::FINISHED;
 }
 

@@ -76,6 +76,13 @@ public:
       \return List of saved games mapped as name => path
     */
     std::list<std::map<std::string, std::string>> getSavedGames();
+
+    //! Is Game Over
+    /*!
+      Checks if the chess match has concluded
+      \return bool, as if true = gameOver, false = game still going
+    */
+    bool isGameOver();
     GameType getGameType();
 private:
     void setGame(std::unique_ptr<Game> game);

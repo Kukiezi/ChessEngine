@@ -4,6 +4,8 @@ ChessGraphicsView::ChessGraphicsView(QGraphicsScene* scene) : QGraphicsView(scen
 {
     this->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     this->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    setWindowFlags(Qt::MSWindowsFixedSizeDialogHint);
+
 }
 
 void ChessGraphicsView::scrollContenstsBy(int, int)

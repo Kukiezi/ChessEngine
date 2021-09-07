@@ -27,6 +27,7 @@ std::vector<std::shared_ptr<Move>> listOfMoves;
 std::list<std::string> listOfMovesInPGN;
 Color player1_ = Color::White;
 Color player2_ = Color::Black;
+Color gameOver_ = Color::GAME_OVER;
 GameState gameState_ = GameState::NOT_STARTED;
 Color* turn_ = &player1_;
 std::shared_ptr<ChessBoard> chessBoard_;
@@ -49,6 +50,7 @@ public:
     Color getTurn();
     std::unique_ptr<Game> getGame();
     bool exportGameToFile();
+    bool isGameOver();
 
 private:
     Color getFriendlyPieces();

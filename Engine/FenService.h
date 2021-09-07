@@ -8,7 +8,7 @@
 /*!
   This class provides methods that are needed to decode/read FEN strings.
 */
-class FanService
+class FenService
 {
 public:
     static void addPieceToBoardFromFenString(std::string fenString, std::shared_ptr<ChessBoard>& board);
