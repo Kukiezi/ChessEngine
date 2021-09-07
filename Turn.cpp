@@ -12,16 +12,24 @@ Turn::Turn(QGraphicsItem *parent) : QGraphicsTextItem(parent)
 void Turn::setTurn(Color turn)
 {
     turn_ = turn;
-    setPlainText(QString("Turn: ") + QString::fromUtf8(getTurn()));
+    setPlainText(QString::fromUtf8(getTurn()));
 }
 
 std::string Turn::getTurn()
 {
     if (turn_ == Color::White) {
-        return "White";
+        return "Turn: White";
     }
-    if (turn_ == Color::GAME_OVER) {
-        return "Game Finished";
+    if (turn_ == Color::Black) {
+        return "Turn: Black";
     }
-    return "Black";
+    if (turn_ == Color::DRAW) {
+        return "DRAW";
+    }
+    if (turn_ == Color::WHITE_WON) {
+        return "WHITE WON";
+    }
+    if (turn_ == Color::BLACK_WON) {
+        return "BLACK WON";
+    }
 }

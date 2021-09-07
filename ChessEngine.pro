@@ -26,7 +26,6 @@ SOURCES += \
     Engine/Pieces/Queen.cpp \
     Engine/Pieces/Rook.cpp \
     Engine/ReplayGame.cpp \
-    Fen.cpp \
     Color.cpp \
     QBackButton.cpp \
     QBoardSquare.cpp \
@@ -75,7 +74,6 @@ HEADERS += \
     Engine/Pieces/Queen.h \
     Engine/Pieces/Rook.h \
     Engine/ReplayGame.h \
-    Fen.h \
     Color.h \
     QBackButton.h \
     QBoardSquare.h \

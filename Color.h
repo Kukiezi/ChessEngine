@@ -6,6 +6,8 @@ enum Color
     Brown,
     MOVE_FROM,
     MOVE_TO,
-    GAME_OVER,
+    DRAW,
+    WHITE_WON,
+    BLACK_WON,
 };
 

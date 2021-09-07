@@ -85,13 +85,7 @@ bool Game::makeMove(std::shared_ptr<Move> move)
     listOfMoves.push_back(move);
     listOfMovesInPGN.push_back(move->getChessCoordinatesFromBoardCoordinates());
 
-    if (MoveValidator::isGameOver(getChessBoard(), *turn_)) {
-        gameState_ = GameState::FINISHED;
-        if (gameType == GameType::NORMAL || gameType == GameType::AI) {
-            exportGameToFile();
-        }
-        turn_ = &gameOver_;
-    }
+    ifGameIsOverSaveGameAndSetUpLabel();
 
     return true;
 }
@@ -138,13 +132,8 @@ std::shared_ptr<Move> Game::getAIMove()
 
     listOfMovesInPGN.push_back(move->getChessCoordinatesFromBoardCoordinates());
 
-    if (MoveValidator::isGameOver(getChessBoard(), *turn_)) {
-        gameState_ = GameState::FINISHED;
-        if (gameType == GameType::NORMAL || gameType == GameType::AI) {
-            exportGameToFile();
-        }
-        turn_ = &gameOver_;
-    }
+    ifGameIsOverSaveGameAndSetUpLabel();
+
     auto retMove = std::shared_ptr<Move>(list[index]);
     return retMove;
 }
@@ -196,3 +185,27 @@ bool Game::isGameOver()
     return gameState_ == GameState::FINISHED;
 }
 
+void Game::ifGameIsOverSaveGameAndSetUpLabel()
+{
+    if (MoveValidator::isGameOver(getChessBoard(), *turn_)) {
+        gameState_ = GameState::FINISHED;
+        if (gameType == GameType::NORMAL || gameType == GameType::AI) {
+            exportGameToFile();
+        }
+        setGameResultLabel();
+    }
+}
+
+void Game::setGameResultLabel()
+{
+    if (MoveGenerator::isKingInCheck(getChessBoard(), player1_)) {
+        turn_ = &blackWon;
+        return;
+    }
+
+    if (MoveGenerator::isKingInCheck(getChessBoard(), player2_)) {
+        turn_ = &whiteWon;
+        return;
+    }
+    turn_ = &draw;
+}
