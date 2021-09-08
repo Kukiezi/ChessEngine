@@ -10,6 +10,11 @@ std::vector<std::vector<int> > Piece::getDirectionsOffsets() const
     return directionsOffsets_;
 }
 
+std::vector<std::vector<int> > Piece::getSlidingDirectionsOffsets() const
+{
+    return slidingDirectionsOffsets_;
+}
+
 std::string Piece::getName() const
 {
     return name_;

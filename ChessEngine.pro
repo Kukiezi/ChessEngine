@@ -21,6 +21,7 @@ SOURCES += \
     Engine/Pieces/Bishop.cpp \
     Engine/Pieces/King.cpp \
     Engine/Pieces/Knight.cpp \
+    Engine/Pieces/KonioGoniec.cpp \
     Engine/Pieces/Pawn.cpp \
     Engine/Pieces/Piece.cpp \
     Engine/Pieces/Queen.cpp \
@@ -46,6 +47,7 @@ SOURCES += \
     UI/Pieces/QBishop.cpp \
     UI/Pieces/QKing.cpp \
     UI/Pieces/QKnight.cpp \
+    UI/Pieces/QKonioGoniec.cpp \
     UI/Pieces/QPawn.cpp \
     UI/Pieces/QPiece.cpp \
     UI/Pieces/QQueen.cpp \
@@ -68,6 +70,7 @@ HEADERS += \
     Engine/Pieces/Bishop.h \
     Engine/Pieces/King.h \
     Engine/Pieces/Knight.h \
+    Engine/Pieces/KonioGoniec.h \
     Engine/Pieces/Pawn.h \
     Engine/Pieces/Piece.h \
     Engine/Pieces/Pieces.h \
@@ -94,6 +97,7 @@ HEADERS += \
     UI/Pieces/QBishop.h \
     UI/Pieces/QKing.h \
     UI/Pieces/QKnight.h \
+    UI/Pieces/QKonioGoniec.h \
     UI/Pieces/QPawn.h \
     UI/Pieces/QPiece.h \
     UI/Pieces/QPieces.h \

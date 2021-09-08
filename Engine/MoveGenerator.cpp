@@ -16,7 +16,11 @@ std::list<Move *> MoveGenerator::generateLegalMoves(ChessBoard* chessBoard, std:
         MoveGenerator::generateLegalMovesForKnight(chessBoard, startingSquare, piece, friendlyPieceColor, legalMoves);
     } else if (piece->getShortName() == "K") {
         MoveGenerator::generateLegalMovesForKing(chessBoard, startingSquare, piece, friendlyPieceColor, legalMoves);
+    } else if (piece->getShortName() == "G") {
+        MoveGenerator::generateLegalMovesForKnight(chessBoard, startingSquare, piece, friendlyPieceColor, legalMoves);
+        MoveGenerator::generateLegalMovesForSlidingPieces(chessBoard, startingSquare, piece, friendlyPieceColor, legalMoves);
     }
+
 
     MoveGenerator::printLegalMoves(legalMoves);
     return legalMoves;
@@ -40,6 +44,9 @@ std::list<Move *> MoveGenerator::generateAllLegalMoves(ChessBoard *chessBoard, C
                     } else if (piece->getShortName() == "K") {
                         MoveGenerator::generateLegalMovesForKing(chessBoard, std::make_pair(x, y), piece, friendlyPieceColor, legalMoves);
                         MoveGenerator::generateLegalCastleMovesForKing(chessBoard, std::make_pair(x, y), piece, friendlyPieceColor, legalMoves);
+                    } else if (piece->getShortName() == "G") {
+                        MoveGenerator::generateLegalMovesForKnight(chessBoard, std::make_pair(x, y), piece, friendlyPieceColor, legalMoves);
+                        MoveGenerator::generateLegalMovesForSlidingPieces(chessBoard, std::make_pair(x, y), piece, friendlyPieceColor, legalMoves);
                     }
                 }
             }
@@ -99,6 +106,9 @@ void MoveGenerator::getOpponentsAllAttackedSquares(ChessBoard *chessBoard, Color
                         MoveGenerator::generateLegalMovesForKnight(chessBoard, std::make_pair(x, y), piece, opponentsColor, legalMoves);
                     } else if (piece->getShortName() == "K") {
                         MoveGenerator::generateLegalMovesForKing(chessBoard, std::make_pair(x, y), piece, opponentsColor, legalMoves);
+                    } else if (piece->getShortName() == "G") {
+                        MoveGenerator::generateLegalMovesForKnight(chessBoard, std::make_pair(x, y), piece, opponentsColor, legalMoves);
+                        MoveGenerator::generateLegalMovesForSlidingPieces(chessBoard, std::make_pair(x, y), piece, opponentsColor, legalMoves);
                     }
                 }
             }
@@ -111,7 +121,8 @@ void MoveGenerator::getOpponentsAllAttackedSquares(ChessBoard *chessBoard, Color
 
 void MoveGenerator::generateLegalMovesForSlidingPieces(ChessBoard *chessBoard, std::pair<int, int> startingSquare, std::shared_ptr<Piece> piece, Color friendlyPieceColor, std::list<Move*>& legalMoves)
 {
-    auto directions = piece->getDirectionsOffsets();
+
+    auto directions = piece->getShortName() == "G" ? piece->getSlidingDirectionsOffsets() : piece->getDirectionsOffsets();
 
     for (auto direction : directions) {
         int currentRow = startingSquare.first;

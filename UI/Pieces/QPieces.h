@@ -7,5 +7,6 @@
 #include "QPiece.h"
 #include "QQueen.h"
 #include "QRook.h"
+#include "QKonioGoniec.h"
 #include "../../Color.h"
 

@@ -71,6 +71,12 @@ std::unique_ptr<Piece> FenService::getPieceFromFen(char piece)
         case 'P':
             return std::make_unique<Pawn>(Color::White);
             break;
+        case 'g':
+            return std::make_unique<KonioGoniec>(Color::Black);
+            break;
+        case 'G':
+            return std::make_unique<KonioGoniec>(Color::White);
+            break;
         default:
             return nullptr;
     }

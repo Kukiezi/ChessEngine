@@ -194,6 +194,8 @@ QPiece *QGame::getPieceFromEngine(std::shared_ptr<Piece> piece)
         return new QKnight(piece->getColor());
     } else if (piece->getShortName() == "K") {
         return new QKing(piece->getColor());
+    } else if (piece->getShortName() == "G") {
+        return new QKonioGoniec(piece->getColor());
     }
 }
 

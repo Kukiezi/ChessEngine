@@ -16,6 +16,7 @@ std::string shortName_;
 Color color_;
 int value_;
 std::vector<std::vector<int>> directionsOffsets_;
+std::vector<std::vector<int>> slidingDirectionsOffsets_;
 bool moved_;
 
 public:
@@ -26,6 +27,7 @@ public:
     Piece(Color color);
 
     virtual std::vector<std::vector<int>> getDirectionsOffsets() const;
+    virtual std::vector<std::vector<int>> getSlidingDirectionsOffsets() const;
     virtual std::string getName() const;
     virtual void setName(std::string name);
 

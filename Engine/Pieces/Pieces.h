@@ -8,5 +8,6 @@
 #include "Queen.h"
 #include "Rook.h"
 #include "Pawn.h"
+#include "KonioGoniec.h"
 
 #endif // PIECES_H
