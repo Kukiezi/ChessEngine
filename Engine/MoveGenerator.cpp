@@ -6,7 +6,7 @@ std::list<Move *> MoveGenerator::generateLegalMoves(ChessBoard* chessBoard, std:
 {
     std::list<Move*> legalMoves;
 
-    auto piece = chessBoard->boardSquares[startingSquare.first][startingSquare.second]->getPiece();
+    auto piece = chessBoard->boardSquares()[startingSquare.first][startingSquare.second]->getPiece();
 
     if (piece->getShortName() == "Q" || piece->getShortName() == "R" || piece->getShortName() == "B") {
         MoveGenerator::generateLegalMovesForSlidingPieces(chessBoard, startingSquare, piece, friendlyPieceColor, legalMoves);
@@ -32,9 +32,9 @@ std::list<Move *> MoveGenerator::generateAllLegalMoves(ChessBoard *chessBoard, C
 //    Color opponentsColor = friendlyPieceColor == Color::White ? Color::Black : Color::White;
     for (int x = 0; x < 8; x++) {
         for (int y = 0; y < 8; y++) {
-            auto piece = chessBoard->boardSquares[x][y]->getPiece();
+            auto piece = chessBoard->boardSquares()[x][y]->getPiece();
             if (piece != nullptr) {
-                if (chessBoard->boardSquares[x][y]->getPiece()->getColor() == friendlyPieceColor) {
+                if (chessBoard->boardSquares()[x][y]->getPiece()->getColor() == friendlyPieceColor) {
                     if (piece->getShortName() == "Q" || piece->getShortName() == "R" || piece->getShortName() == "B") {
                         MoveGenerator::generateLegalMovesForSlidingPieces(chessBoard, std::make_pair(x, y), piece, friendlyPieceColor, legalMoves);
                     } else if (piece->getShortName() == "P") {
@@ -75,9 +75,9 @@ bool MoveGenerator::isKingInCheck(ChessBoard *chessBoard, Color friendlyPieceCol
 
 bool MoveGenerator::performMove(ChessBoard* chessBoard, Move *move)
 {
-    auto piece = chessBoard->boardSquares[move->from.first][move->from.second]->getPiece();
-    chessBoard->boardSquares[move->to.first][move->to.second]->setPiece(piece);
-    chessBoard->boardSquares[move->from.first][move->from.second]->resetPiece();
+    auto piece = chessBoard->boardSquares()[move->from().first][move->from().second]->getPiece();
+    chessBoard->boardSquares()[move->to().first][move->to().second]->setPiece(piece);
+    chessBoard->boardSquares()[move->from().first][move->from().second]->resetPiece();
 
 
     if (piece->didPieceMove() == true)
@@ -95,9 +95,9 @@ void MoveGenerator::getOpponentsAllAttackedSquares(ChessBoard *chessBoard, Color
 
     for (int x = 0; x < 8; x++) {
         for (int y = 0; y < 8; y++) {
-            auto piece = chessBoard->boardSquares[x][y]->getPiece();
+            auto piece = chessBoard->boardSquares()[x][y]->getPiece();
             if (piece != nullptr) {
-                if (chessBoard->boardSquares[x][y]->getPiece()->getColor() != friendlyPieceColor) {
+                if (chessBoard->boardSquares()[x][y]->getPiece()->getColor() != friendlyPieceColor) {
                     if (piece->getShortName() == "Q" || piece->getShortName() == "R" || piece->getShortName() == "B") {
                         MoveGenerator::generateLegalMovesForSlidingPieces(chessBoard, std::make_pair(x, y), piece, opponentsColor, legalMoves);
                     } else if (piece->getShortName() == "P") {
@@ -115,7 +115,7 @@ void MoveGenerator::getOpponentsAllAttackedSquares(ChessBoard *chessBoard, Color
         }
     }
     for (auto move : legalMoves) {
-        attackedSquares.push_back(chessBoard->boardSquares[move->to.first][move->to.second]);
+        attackedSquares.push_back(chessBoard->boardSquares()[move->to().first][move->to().second]);
     }
 }
 
@@ -131,8 +131,8 @@ void MoveGenerator::generateLegalMovesForSlidingPieces(ChessBoard *chessBoard, s
         currentCol += direction[1];
 
         while (currentRow < 8 && currentRow >= 0 && currentCol < 8 && currentCol >= 0) {
-            if (chessBoard->boardSquares[currentRow][currentCol]->getPiece() != nullptr) {
-                if (chessBoard->boardSquares[currentRow][currentCol]->getPiece()->getColor() == friendlyPieceColor) {
+            if (chessBoard->boardSquares()[currentRow][currentCol]->getPiece() != nullptr) {
+                if (chessBoard->boardSquares()[currentRow][currentCol]->getPiece()->getColor() == friendlyPieceColor) {
                     break;
                 }
                 legalMoves.push_back(new Move(startingSquare, std::make_pair(currentRow, currentCol)));
@@ -164,8 +164,8 @@ void MoveGenerator::generateLegalMovesForKing(ChessBoard *chessBoard, std::pair<
             continue;
         }
 
-        if (chessBoard->boardSquares[currentRow][currentCol]->getPiece() != nullptr) {
-            if (chessBoard->boardSquares[currentRow][currentCol]->getPiece()->getColor() == friendlyPieceColor) {
+        if (chessBoard->boardSquares()[currentRow][currentCol]->getPiece() != nullptr) {
+            if (chessBoard->boardSquares()[currentRow][currentCol]->getPiece()->getColor() == friendlyPieceColor) {
                 continue;
             }
             legalMoves.push_back(new Move(startingSquare, std::make_pair(currentRow, currentCol)));
@@ -188,8 +188,8 @@ void MoveGenerator::generateLegalMovesForKnight(ChessBoard *chessBoard, std::pai
             continue;
         }
 
-        if (chessBoard->boardSquares[currentRow][currentCol]->getPiece() != nullptr) {
-            if (chessBoard->boardSquares[currentRow][currentCol]->getPiece()->getColor() == friendlyPieceColor) {
+        if (chessBoard->boardSquares()[currentRow][currentCol]->getPiece() != nullptr) {
+            if (chessBoard->boardSquares()[currentRow][currentCol]->getPiece()->getColor() == friendlyPieceColor) {
                 continue;
             }
             legalMoves.push_back(new Move(startingSquare, std::make_pair(currentRow, currentCol)));
@@ -218,12 +218,12 @@ void MoveGenerator::generateForwardMovesForPawn(ChessBoard *chessBoard, std::pai
         return;
     }
 
-    if (chessBoard->boardSquares[currentRow][currentCol]->getPiece() == nullptr) {
+    if (chessBoard->boardSquares()[currentRow][currentCol]->getPiece() == nullptr) {
         legalMoves.push_back(new Move(startingSquare, std::make_pair(currentRow, currentCol)));
 
         if (!piece->didPieceMove()) {
             currentRow += directions[0];;
-            if (chessBoard->boardSquares[currentRow][currentCol]->getPiece() == nullptr) {
+            if (chessBoard->boardSquares()[currentRow][currentCol]->getPiece() == nullptr) {
                 legalMoves.push_back(new Move(startingSquare, std::make_pair(currentRow, currentCol)));
             }
         }
@@ -248,8 +248,8 @@ void MoveGenerator::generateAttackingMovesForPawn(ChessBoard *chessBoard, std::p
             continue;
         }
 
-        if (chessBoard->boardSquares[currentRow][currentCol]->getPiece() != nullptr) {
-            if (chessBoard->boardSquares[currentRow][currentCol]->getPiece()->getColor() != friendlyPieceColor) {
+        if (chessBoard->boardSquares()[currentRow][currentCol]->getPiece() != nullptr) {
+            if (chessBoard->boardSquares()[currentRow][currentCol]->getPiece()->getColor() != friendlyPieceColor) {
                 legalMoves.push_back(new Move(startingSquare, std::make_pair(currentRow, currentCol)));
             }
         }
@@ -266,7 +266,7 @@ void MoveGenerator::printLegalMoves(std::list<Move *> &legalMoves)
 bool MoveGenerator::isSquareUnderAttack(int row, int col, std::list<BoardSquare*> attackedSquares)
 {
     for (auto square : attackedSquares) {
-        if (square->row == row && square->col == col) {
+        if (square->row() == row && square->col() == col) {
             return true;
         }
     }
@@ -287,10 +287,10 @@ void MoveGenerator::generateLegalCastleMovesForKing(ChessBoard *chessBoard, std:
                 if (col < 0) {
                     break;
                 }
-                if (col == 0 && chessBoard->boardSquares[row][col]->getPiece() != nullptr && !chessBoard->boardSquares[row][col]->getPiece()->didPieceMove() && !isSquareUnderAttack(row, col, attackedSquares)) {
+                if (col == 0 && chessBoard->boardSquares()[row][col]->getPiece() != nullptr && !chessBoard->boardSquares()[row][col]->getPiece()->didPieceMove() && !isSquareUnderAttack(row, col, attackedSquares)) {
                     legalMoves.push_back(new Move(std::make_pair(0, 4), std::make_pair(row, col + 1)));
                 }
-                if (chessBoard->boardSquares[row][col]->getPiece() != nullptr || isSquareUnderAttack(row, col, attackedSquares)) {
+                if (chessBoard->boardSquares()[row][col]->getPiece() != nullptr || isSquareUnderAttack(row, col, attackedSquares)) {
                     break;
                 }
             }
@@ -302,10 +302,10 @@ void MoveGenerator::generateLegalCastleMovesForKing(ChessBoard *chessBoard, std:
                 if (col > 7) {
                     break;
                 }
-                if (col == 7 && chessBoard->boardSquares[row][col]->getPiece() != nullptr && !chessBoard->boardSquares[row][col]->getPiece()->didPieceMove() && !isSquareUnderAttack(row, col, attackedSquares)) {
+                if (col == 7 && chessBoard->boardSquares()[row][col]->getPiece() != nullptr && !chessBoard->boardSquares()[row][col]->getPiece()->didPieceMove() && !isSquareUnderAttack(row, col, attackedSquares)) {
                     legalMoves.push_back(new Move(std::make_pair(0, 4), std::make_pair(row, col - 1)));
                 }
-                if (chessBoard->boardSquares[row][col]->getPiece() != nullptr || isSquareUnderAttack(row, col, attackedSquares)) {
+                if (chessBoard->boardSquares()[row][col]->getPiece() != nullptr || isSquareUnderAttack(row, col, attackedSquares)) {
                     break;
                 }
             }
@@ -318,10 +318,10 @@ void MoveGenerator::generateLegalCastleMovesForKing(ChessBoard *chessBoard, std:
                 if (col < 0) {
                     break;
                 }
-                if (col == 0 && chessBoard->boardSquares[row][col]->getPiece() != nullptr && !chessBoard->boardSquares[row][col]->getPiece()->didPieceMove() && !isSquareUnderAttack(row, col, attackedSquares)) {
+                if (col == 0 && chessBoard->boardSquares()[row][col]->getPiece() != nullptr && !chessBoard->boardSquares()[row][col]->getPiece()->didPieceMove() && !isSquareUnderAttack(row, col, attackedSquares)) {
                     legalMoves.push_back(new Move(std::make_pair(7, 4), std::make_pair(row, col + 1)));
                 }
-                if (chessBoard->boardSquares[row][col]->getPiece() != nullptr || isSquareUnderAttack(row, col, attackedSquares)) {
+                if (chessBoard->boardSquares()[row][col]->getPiece() != nullptr || isSquareUnderAttack(row, col, attackedSquares)) {
                     break;
                 }
             }
@@ -333,10 +333,10 @@ void MoveGenerator::generateLegalCastleMovesForKing(ChessBoard *chessBoard, std:
                 if (col > 7) {
                     break;
                 }
-                if (col == 7 && chessBoard->boardSquares[row][col]->getPiece() != nullptr && !chessBoard->boardSquares[row][col]->getPiece()->didPieceMove() && !isSquareUnderAttack(row, col, attackedSquares)) {
+                if (col == 7 && chessBoard->boardSquares()[row][col]->getPiece() != nullptr && !chessBoard->boardSquares()[row][col]->getPiece()->didPieceMove() && !isSquareUnderAttack(row, col, attackedSquares)) {
                     legalMoves.push_back(new Move(std::make_pair(7, 4), std::make_pair(row, col - 1)));
                 }
-                if (chessBoard->boardSquares[row][col]->getPiece() != nullptr || isSquareUnderAttack(row, col, attackedSquares)) {
+                if (chessBoard->boardSquares()[row][col]->getPiece() != nullptr || isSquareUnderAttack(row, col, attackedSquares)) {
                     break;
                 }
             }

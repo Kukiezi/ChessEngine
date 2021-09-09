@@ -33,9 +33,13 @@ Color whiteWon = Color::WHITE_WON;
 GameState gameState_ = GameState::NOT_STARTED;
 Color* turn_ = &player1_;
 std::shared_ptr<ChessBoard> chessBoard_;
+GameType gameType_;
+std::list<BoardSquare*> attackedSquares_;
 public:
-    GameType gameType;
-    std::list<BoardSquare*> attackedSquares;
+    GameType gameType() const & {return gameType_;}
+    void gameType(GameType gameType) {gameType_ = gameType;}
+    std::list<BoardSquare*> & attackedSquares() {return attackedSquares_;}
+
     Game(std::string fenString, GameType gameType);
 
     ChessBoard* getChessBoard();

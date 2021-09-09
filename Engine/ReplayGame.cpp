@@ -9,16 +9,16 @@ ReplayGame::ReplayGame(std::list<std::string> listOfGameMoves, std::string fenSt
 
 std::shared_ptr<Move> ReplayGame::makeMoveBackward()
 {
-    if (currentMoveIndex < 1) {
+    if (currentMoveIndex() < 1) {
         return NULL;
     }
-    auto backwardMove = listOfGameMoves[currentMoveIndex - 1];
+    auto backwardMove = listOfGameMoves[currentMoveIndex() - 1];
     auto move = backwardMove->getConvertToBackwardMove();
 
     auto wasMoveMade = makeMoveWithoutLegalChecks(move);
 
     if (wasMoveMade) {
-        currentMoveIndex -= 1;
+        currentMoveIndex(currentMoveIndex() - 1);
     }
 
     return move;
@@ -26,14 +26,14 @@ std::shared_ptr<Move> ReplayGame::makeMoveBackward()
 
 std::shared_ptr<Move> ReplayGame::makeMoveForward()
 {
-    if (currentMoveIndex == listOfGameMoves.size()) {
+    if (currentMoveIndex() == listOfGameMoves.size()) {
         return NULL;
     }
-    auto move = listOfGameMoves[currentMoveIndex];
+    auto move = listOfGameMoves[currentMoveIndex()];
     auto wasMoveMade = makeMoveWithoutLegalChecks(move);
 
     if (wasMoveMade) {
-        currentMoveIndex += 1;
+        currentMoveIndex(currentMoveIndex() + 1);
     }
 
     return move;

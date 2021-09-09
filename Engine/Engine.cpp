@@ -98,7 +98,7 @@ bool Engine::isGameOver()
 
 GameType Engine::getGameType()
 {
-    return getGame()->gameType;
+    return getGame()->gameType();
 }
 
 void Engine::readGameFromFile(std::string gameFilePath, std::list<std::string>& list)

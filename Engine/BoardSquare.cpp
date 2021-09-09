@@ -8,8 +8,8 @@ BoardSquare::BoardSquare()
 BoardSquare::BoardSquare(Color color, int row, int col)
 {
     setColor(color);
-    this->row = row;
-    this->col = col;
+    this->row(row);
+    this->col(col);
 }
 
 std::shared_ptr<Piece> BoardSquare::getPiece()

@@ -5,7 +5,7 @@ Game::Game(std::__1::string fenString, GameType gameType)
     setChessBoard(std::make_unique<ChessBoard>());
     FenService::addPieceToBoardFromFenString(fenString, chessBoard_);
     std::string turn = FenService::getStartingTurnFromFenString(fenString);
-    this->gameType = gameType;
+    gameType_ = gameType;
     if (turn == "w") {
         turn_ = &player1_;
     } else {
@@ -37,7 +37,7 @@ void Game::setNextTurn()
 std::shared_ptr<Move> Game::getLastCastleMove()
 {
     auto move = listOfMoves[listOfMoves.size() - 1];
-    if (move->isCastleMove) {
+    if (move->isCastleMove()) {
         return move;
     }
     return NULL;
@@ -53,30 +53,30 @@ bool Game::makeMove(std::shared_ptr<Move> move)
         return false;
     }
 
-    auto piece = chessBoard_->boardSquares[move->from.first][move->from.second]->getPiece();
+    auto piece = chessBoard_->boardSquares()[move->from().first][move->from().second]->getPiece();
 
-    chessBoard_->boardSquares[move->to.first][move->to.second]->setPiece(piece);
-    chessBoard_->boardSquares[move->from.first][move->from.second]->resetPiece();
+    chessBoard_->boardSquares()[move->to().first][move->to().second]->setPiece(piece);
+    chessBoard_->boardSquares()[move->from().first][move->from().second]->resetPiece();
 
-    if (piece->getShortName() == "K" && move->isCastleMove) {
-        auto castlePiece = chessBoard_->boardSquares[move->castleFrom.first][move->castleFrom.second]->getPiece();
-        chessBoard_->boardSquares[move->castleTo.first][move->castleTo.second]->setPiece(castlePiece);
-        chessBoard_->boardSquares[move->castleFrom.first][move->castleFrom.second]->resetPiece();
+    if (piece->getShortName() == "K" && move->isCastleMove()) {
+        auto castlePiece = chessBoard_->boardSquares()[move->castleFrom().first][move->castleFrom().second]->getPiece();
+        chessBoard_->boardSquares()[move->castleTo().first][move->castleTo().second]->setPiece(castlePiece);
+        chessBoard_->boardSquares()[move->castleFrom().first][move->castleFrom().second]->resetPiece();
         castlePiece->setMoved(true);
     }
 
     // Transform pawn to queen if reached the other side of the board
-    if (piece->getShortName() == "P" && *turn_ == Color::White && move->to.first == 7) {
+    if (piece->getShortName() == "P" && *turn_ == Color::White && move->to().first == 7) {
         std::cout << "wszedlem" << std::endl;
-        chessBoard_->boardSquares[move->to.first][move->to.second]->resetPiece();
+        chessBoard_->boardSquares()[move->to().first][move->to().second]->resetPiece();
         std::shared_ptr<Piece> newPiece = std::make_unique<Queen>(Color::White);
-        chessBoard_->boardSquares[move->to.first][move->to.second]->setPiece(newPiece);
+        chessBoard_->boardSquares()[move->to().first][move->to().second]->setPiece(newPiece);
     }
-    if (piece->getShortName() == "P" && *turn_ == Color::Black && move->to.first == 0) {
+    if (piece->getShortName() == "P" && *turn_ == Color::Black && move->to().first == 0) {
         std::cout << "wszedlem" << std::endl;
-        chessBoard_->boardSquares[move->to.first][move->to.second]->resetPiece();
+        chessBoard_->boardSquares()[move->to().first][move->to().second]->resetPiece();
         std::shared_ptr<Piece> newPiece = std::make_unique<Queen>(Color::Black);
-        chessBoard_->boardSquares[move->to.first][move->to.second]->setPiece(newPiece);
+        chessBoard_->boardSquares()[move->to().first][move->to().second]->setPiece(newPiece);
     }
 
     piece->setMoved(true);
@@ -92,10 +92,10 @@ bool Game::makeMove(std::shared_ptr<Move> move)
 
 bool Game::makeMoveWithoutLegalChecks(std::shared_ptr<Move> move)
 {
-    auto piece = chessBoard_->boardSquares[move->from.first][move->from.second]->getPiece();
+    auto piece = chessBoard_->boardSquares()[move->from().first][move->from().second]->getPiece();
 
-    chessBoard_->boardSquares[move->to.first][move->to.second]->setPiece(piece);
-    chessBoard_->boardSquares[move->from.first][move->from.second]->resetPiece();
+    chessBoard_->boardSquares()[move->to().first][move->to().second]->setPiece(piece);
+    chessBoard_->boardSquares()[move->from().first][move->from().second]->resetPiece();
     return true;
 }
 
@@ -115,29 +115,29 @@ std::shared_ptr<Move> Game::getAIMove()
     }
     auto move = list[index];
 
-    auto piece = chessBoard_->boardSquares[move->from.first][move->from.second]->getPiece();
+    auto piece = chessBoard_->boardSquares()[move->from().first][move->from().second]->getPiece();
 
-    chessBoard_->boardSquares[move->to.first][move->to.second]->setPiece(piece);
-    chessBoard_->boardSquares[move->from.first][move->from.second]->resetPiece();
+    chessBoard_->boardSquares()[move->to().first][move->to().second]->setPiece(piece);
+    chessBoard_->boardSquares()[move->from().first][move->from().second]->resetPiece();
 
-    if (piece->getShortName() == "K" && move->isCastleMove) {
-        auto castlePiece = chessBoard_->boardSquares[move->castleFrom.first][move->castleFrom.second]->getPiece();
-        chessBoard_->boardSquares[move->castleTo.first][move->castleTo.second]->setPiece(castlePiece);
-        chessBoard_->boardSquares[move->castleFrom.first][move->castleFrom.second]->resetPiece();
+    if (piece->getShortName() == "K" && move->isCastleMove()) {
+        auto castlePiece = chessBoard_->boardSquares()[move->castleFrom().first][move->castleFrom().second]->getPiece();
+        chessBoard_->boardSquares()[move->castleTo().first][move->castleTo().second]->setPiece(castlePiece);
+        chessBoard_->boardSquares()[move->castleFrom().first][move->castleFrom().second]->resetPiece();
         castlePiece->setMoved(true);
     }
 
-    if (piece->getShortName() == "P" && *turn_ == Color::White && move->to.first == 7) {
+    if (piece->getShortName() == "P" && *turn_ == Color::White && move->to().first == 7) {
         std::cout << "wszedlem" << std::endl;
-        chessBoard_->boardSquares[move->to.first][move->to.second]->resetPiece();
+        chessBoard_->boardSquares()[move->to().first][move->to().second]->resetPiece();
         std::shared_ptr<Piece> newPiece = std::make_unique<Queen>(Color::White);
-        chessBoard_->boardSquares[move->to.first][move->to.second]->setPiece(newPiece);
+        chessBoard_->boardSquares()[move->to().first][move->to().second]->setPiece(newPiece);
     }
-    if (piece->getShortName() == "P" && *turn_ == Color::Black && move->to.first == 0) {
+    if (piece->getShortName() == "P" && *turn_ == Color::Black && move->to().first == 0) {
         std::cout << "wszedlem" << std::endl;
-        chessBoard_->boardSquares[move->to.first][move->to.second]->resetPiece();
+        chessBoard_->boardSquares()[move->to().first][move->to().second]->resetPiece();
         std::shared_ptr<Piece> newPiece = std::make_unique<Queen>(Color::Black);
-        chessBoard_->boardSquares[move->to.first][move->to.second]->setPiece(newPiece);
+        chessBoard_->boardSquares()[move->to().first][move->to().second]->setPiece(newPiece);
     }
 
     piece->setMoved(true);
@@ -202,7 +202,7 @@ void Game::ifGameIsOverSaveGameAndSetUpLabel()
 {
     if (MoveValidator::isGameOver(getChessBoard(), *turn_)) {
         gameState_ = GameState::FINISHED;
-        if (gameType == GameType::NORMAL || gameType == GameType::AI) {
+        if (gameType_ == GameType::NORMAL || gameType_ == GameType::AI) {
             exportGameToFile();
         }
         setGameResultLabel();

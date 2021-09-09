@@ -7,9 +7,14 @@
 
 class QPositionButton: public QGraphicsRectItem
 {
+    QPositionInput* input_;
+    std::unique_ptr<QSavedGameText> label_;
 public:
-    QPositionInput* input;
-    std::unique_ptr<QSavedGameText> backLabel;
+    QPositionInput* input() {return input_;}
+    void input(QPositionInput* input) {input_ = input;}
+    std::unique_ptr<QSavedGameText> & label() {return label_;}
+    void label(std::unique_ptr<QSavedGameText> label) {label_ = std::move(label);}
+
     QPositionButton(QPositionInput* input);
 
     void mousePressEvent(QGraphicsSceneMouseEvent *event) override;

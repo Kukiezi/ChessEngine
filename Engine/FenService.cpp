@@ -5,9 +5,9 @@ void FenService::addPieceToBoardFromFenString(std::__1::string fenString, std::s
     int count = 0;
     int skip = 0;
 
-    for (int i = chessBoard->boardSquares.size() - 1; i >= 0; i--)
+    for (int i = chessBoard->boardSquares().size() - 1; i >= 0; i--)
        {
-           for (int j = 0; j < chessBoard->boardSquares.size(); j++)
+           for (int j = 0; j < chessBoard->boardSquares().size(); j++)
            {
                if (fenString[count] == '/') {
                    count++;
@@ -25,7 +25,7 @@ void FenService::addPieceToBoardFromFenString(std::__1::string fenString, std::s
 
                std::shared_ptr<Piece> pieceToAdd = getPieceFromFen(fenString[count++]);
                if (pieceToAdd != nullptr) {
-                   chessBoard->boardSquares[i][j]->setPiece(pieceToAdd);
+                   chessBoard->boardSquares()[i][j]->setPiece(pieceToAdd);
                }
            }
        }

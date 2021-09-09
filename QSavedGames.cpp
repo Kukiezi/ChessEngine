@@ -14,7 +14,7 @@ QSavedGames::QSavedGames()
             x = 0;
             count = 0;
         }
-        savedGames.push_back(new QSavedGame(game, std::make_pair(x, y)));
+        savedGames().push_back(new QSavedGame(game, std::make_pair(x, y)));
         count += 1;
         x += 250;
     }

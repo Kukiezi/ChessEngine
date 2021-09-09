@@ -11,7 +11,6 @@
 */
 class Move
 {
-public:
     std::map<char, int> fieldCharToIndex = {
         {'a', 0},
         {'b', 1},
@@ -33,13 +32,29 @@ public:
         {6, 'g'},
         {7, 'h'},
     };
+    std::pair<int, int> from_;
+    std::pair<int, int> to_;
+    std::unique_ptr<ChessBoard> chessBoard_;
+    bool isCastleMove_;
+    std::pair<int, int> castleFrom_;
+    std::pair<int, int> castleTo_;
+public:
+    std::pair<int, int> from() const & {return from_; }
+    void from(std::pair<int, int> from) {from_ = from;}
 
-    std::pair<int, int> from;
-    std::pair<int, int> to;
-    std::unique_ptr<ChessBoard> chessBoard;
-    bool isCastleMove;
-    std::pair<int, int> castleFrom;
-    std::pair<int, int> castleTo;
+    std::pair<int, int> to() const & {return to_; }
+    std::pair<int, int> to(std::pair<int, int> to) {to_ = to;}
+
+    std::pair<int, int> castleFrom() const & {return castleFrom_; }
+    void castleFrom(std::pair<int, int> castleFrom) {castleFrom_ = castleFrom;}
+
+    std::pair<int, int> castleTo() const & {return castleTo_; }
+    std::pair<int, int> castleTo(std::pair<int, int> castleTo) {castleTo_ = castleTo;}
+
+    bool isCastleMove() const {return isCastleMove_; }
+    void isCastleMove(bool isCastleMove) {isCastleMove_ = isCastleMove;}
+
+    std::unique_ptr<ChessBoard> & chessBoard() {return chessBoard_;}
 
     //! A constructor.
     /*!

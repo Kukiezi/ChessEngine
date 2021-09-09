@@ -6,8 +6,9 @@
 
 class QSavedGames
 {
+    std::list<QSavedGame*> savedGames_;
 public:
-    std::list<QSavedGame*> savedGames;
+    std::list<QSavedGame*>& savedGames() {return savedGames_;}
 
     QSavedGames();
 private:

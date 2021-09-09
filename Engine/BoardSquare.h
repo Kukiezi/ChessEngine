@@ -12,10 +12,24 @@ class BoardSquare
 {
 std::shared_ptr<Piece> piece_;
 Color color_;
+int row_;
+int col_;
 
 public:
-    int row;
-    int col;
+    int row() const {return row_; }
+    void row(int row) {
+        if (row < 0 || row > 7) {
+            throw std::invalid_argument("invalid argument for row");
+        }
+        row_ = row;
+    }
+    int col() const {return col_;}
+    void col(int col) {
+        if (col < 0 || col > 7) {
+            throw std::invalid_argument("invalid argument for col");
+        }
+        col_ = col;
+    }
 
     //! A constructor.
     /*!

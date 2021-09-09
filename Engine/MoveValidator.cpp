@@ -7,7 +7,7 @@ bool MoveValidator::isMoveLegal(ChessBoard* chessBoard, std::shared_ptr<Move> mo
         return false;
     }
 
-    auto piece = chessBoard->boardSquares[move->from.first][move->from.second]->getPiece();
+    auto piece = chessBoard->boardSquares()[move->from().first][move->from().second]->getPiece();
 
     if (!MoveValidator::isPieceOnStartingSquareFriendly(piece, friendlyPieceColor)) {
         std::cout << "not friendly piece on starting square" << std::endl;
@@ -49,23 +49,23 @@ std::list<Move*> MoveValidator::getAllLegalMoves(ChessBoard* chessBoard, Color f
 std::list<Move*> MoveValidator::performTheLegalMovesAndEraseThoseThatCauseCheckOnFriendlyKing(std::list<Move*> legalMoves, ChessBoard* chessBoard, Color friendlyPieceColor)
 {
     for (std::list<Move*>::iterator it = legalMoves.begin(); it != legalMoves.end(); ++it){
-        std::pair<int, int> from = std::make_pair((*it)->from.first, (*it)->from.second);
-        std::pair<int, int> to = std::make_pair((*it)->to.first, (*it)->to.second);
-        auto pieceToRevert = chessBoard->boardSquares[to.first][to.second]->getPiece();
+        std::pair<int, int> from = std::make_pair((*it)->from().first, (*it)->from().second);
+        std::pair<int, int> to = std::make_pair((*it)->to().first, (*it)->to().second);
+        auto pieceToRevert = chessBoard->boardSquares()[to.first][to.second]->getPiece();
         bool shouldRevertDidPieceMove = MoveGenerator::performMove(chessBoard, (*it));
         if (MoveGenerator::isKingInCheck(chessBoard, friendlyPieceColor)) {
             legalMoves.erase(it);
         }
-        auto movedPiece = chessBoard->boardSquares[to.first][to.second]->getPiece();
-        chessBoard->boardSquares[from.first][from.second]->setPiece(movedPiece);
+        auto movedPiece = chessBoard->boardSquares()[to.first][to.second]->getPiece();
+        chessBoard->boardSquares()[from.first][from.second]->setPiece(movedPiece);
         if (shouldRevertDidPieceMove)
         {
-            chessBoard->boardSquares[from.first][from.second]->getPiece()->setMoved(false);
+            chessBoard->boardSquares()[from.first][from.second]->getPiece()->setMoved(false);
         }
         if (pieceToRevert == nullptr) {
-            chessBoard->boardSquares[to.first][to.second]->resetPiece();
+            chessBoard->boardSquares()[to.first][to.second]->resetPiece();
         } else {
-            chessBoard->boardSquares[to.first][to.second]->setPiece(pieceToRevert);
+            chessBoard->boardSquares()[to.first][to.second]->setPiece(pieceToRevert);
         }
     }
 

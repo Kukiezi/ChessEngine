@@ -8,8 +8,10 @@
 
 class QChessBackButton : public QGraphicsRectItem
 {
+    std::unique_ptr<QSavedGameText> label_;
 public:
-    std::unique_ptr<QSavedGameText> label;
+    std::unique_ptr<QSavedGameText> & label() {return label_;}
+    void label(std::unique_ptr<QSavedGameText> label) {label_ = std::move(label);}
 
     QChessBackButton();
 

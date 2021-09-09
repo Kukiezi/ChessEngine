@@ -5,8 +5,9 @@
 
 class QChessBoard
 {
+    std::vector<std::vector<QBoardSquare*>> boardSquares_;
 public:
-    std::vector<std::vector<QBoardSquare*>> boardSquares;
+    std::vector<std::vector<QBoardSquare*>> & boardSquares() {return boardSquares_;}
     QChessBoard();
     void resetSquareColors();
 

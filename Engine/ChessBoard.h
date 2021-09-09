@@ -11,9 +11,9 @@
 */
 class ChessBoard
 {
+    std::vector<std::vector<BoardSquare*>> boardSquares_;
 public:
-    std::vector<std::vector<BoardSquare*>> boardSquares;
-    std::vector<std::vector<int>> directionsOffsets = {{0, 1}, {0, -1}, {1, 0}, {-1, 0}, {1, 1}, {-1, 1}, {1, -1}, {-1, 1}};
+    std::vector<std::vector<BoardSquare*>> & boardSquares() {return boardSquares_;};
 
     //! A constructor.
     /*!

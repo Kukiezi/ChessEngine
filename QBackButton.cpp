@@ -7,7 +7,7 @@ QBackButton::QBackButton()
     this->setPos(0, 0);
     this->setRect(0, 0, 100, 50);
     std::pair<int, int> pos = std::make_pair(25, 0);
-    backLabel = std::unique_ptr<QSavedGameText>(new QSavedGameText("Back", pos));
+    backLabel(std::unique_ptr<QSavedGameText>(new QSavedGameText("Back", pos)));
 }
 
 void QBackButton::mousePressEvent(QGraphicsSceneMouseEvent *event)

@@ -1,13 +1,13 @@
 #include "ChessBoard.h"
 
-ChessBoard::ChessBoard() : boardSquares(8, std::vector<BoardSquare *>(8))
+ChessBoard::ChessBoard() : boardSquares_(8, std::vector<BoardSquare *>(8))
 {
     for (int i = 0; i < 8; i++) {
         for (int j = 0; j < 8; j++) {
             if ((i + j) % 2 == 0) {
-                boardSquares[i][j] = new BoardSquare(Color::White, i, j);
+                boardSquares_[i][j] = new BoardSquare(Color::White, i, j);
             } else {
-                boardSquares[i][j] = new BoardSquare(Color::Brown, i, j);
+                boardSquares_[i][j] = new BoardSquare(Color::Brown, i, j);
             }
         }
     }
@@ -18,12 +18,12 @@ ChessBoard::ChessBoard() : boardSquares(8, std::vector<BoardSquare *>(8))
 void ChessBoard::printChessBoard()
 {
     std::cout << "" << std::endl;
-    for (int i = boardSquares.size() - 1; i >= 0; i--)
+    for (int i = boardSquares_.size() - 1; i >= 0; i--)
        {
-           for (int j = 0; j < boardSquares.size(); j++)
+           for (int j = 0; j < boardSquares_.size(); j++)
            {
-               std::cout << boardSquares[i][j]->getPieceColorShortName() << boardSquares[i][j]->getPieceShortName();
-               if (boardSquares[i][j]->getPieceColorShortName() == "") {
+               std::cout << boardSquares_[i][j]->getPieceColorShortName() << boardSquares_[i][j]->getPieceShortName();
+               if (boardSquares_[i][j]->getPieceColorShortName() == "") {
                    std::cout << "  ";
                } else {
                    std::cout << " ";

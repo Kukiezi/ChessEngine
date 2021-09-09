@@ -28,8 +28,8 @@ void QPiece::mousePressEvent(QGraphicsSceneMouseEvent *event)
 
     QList<QGraphicsItem*> colItems = collidingItems();
     auto rect = dynamic_cast<QBoardSquare*>(colItems[0]);
-    move->from = rect;
-    from = std::make_pair(rect->row, rect->col);
+    move->from(rect);
+    from = std::make_pair(rect->row(), rect->col());
 }
 
 void QPiece::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
@@ -75,24 +75,24 @@ void QPiece::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
             QBoardSquare* boardRect = dynamic_cast<QBoardSquare*>(closestItem);
 
             if (boardRect) {
-                this->to = std::make_pair(boardRect->row, boardRect->col);
+                this->to = std::make_pair(boardRect->row(), boardRect->col());
                 if (!engine->makeMove(this->from, this->to)) {
                     this->setPos(this->anchorPoint);
                 } else {
-                    move->to = boardRect;
+                    move->to(boardRect);
                     boardRect->setPiece(this);
-                    move->from->removePiece();
+                    move->from()->removePiece();
                     std::cout << this->getColor() << std::endl;
-                    std::cout << boardRect->row << std::endl;
+                    std::cout << boardRect->row() << std::endl;
                     std::cout << this->getName() << std::endl;
 
                     // Transform pawn to queen if reached the other side of the board
-                    if (this->getColor() == Color::White && boardRect->row == 7 && this->getName() == "Pawn") {
+                    if (this->getColor() == Color::White && boardRect->row() == 7 && this->getName() == "Pawn") {
                         QPiece* pieceToAdd = new QQueen(Color::White);
                         boardRect->setPiece(pieceToAdd);
                         scene->addItem(pieceToAdd);
                     }
-                    if (this->getColor() == Color::Black && boardRect->row == 0 && this->getName() == "Pawn") {
+                    if (this->getColor() == Color::Black && boardRect->row() == 0 && this->getName() == "Pawn") {
                         QPiece* pieceToAdd = new QQueen(Color::Black);
                         boardRect->setPiece(pieceToAdd);
                         scene->addItem(pieceToAdd);
@@ -100,25 +100,25 @@ void QPiece::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 
                     game->getTurn()->setTurn(engine->getTurn());
                     game->resetSquareColors();
-                    move->from->setColor(Color::MOVE_FROM);
-                    move->to->setColor(Color::MOVE_TO);
+                    move->from()->setColor(Color::MOVE_FROM);
+                    move->to()->setColor(Color::MOVE_TO);
                     auto castleMove = engine->getGame()->getLastCastleMove();
                     if (castleMove != NULL) {
-                        auto pieceToCastle = game->getChessBoard()->boardSquares[castleMove->castleFrom.first][castleMove->castleFrom.second]->getPiece();
-                        game->getChessBoard()->boardSquares[castleMove->castleTo.first][castleMove->castleTo.second]->setPiece(pieceToCastle);
-                        game->getChessBoard()->boardSquares[castleMove->castleFrom.first][castleMove->castleFrom.second]->removePiece();
+                        auto pieceToCastle = game->getChessBoard()->boardSquares()[castleMove->castleFrom().first][castleMove->castleFrom().second]->getPiece();
+                        game->getChessBoard()->boardSquares()[castleMove->castleTo().first][castleMove->castleTo().second]->setPiece(pieceToCastle);
+                        game->getChessBoard()->boardSquares()[castleMove->castleFrom().first][castleMove->castleFrom().second]->removePiece();
                     }
                     if (game->getGameType() == GameType::AI) {
                         auto aiMove = engine->getAIMove();
                         if (aiMove != NULL) {
-                            auto aiPiece = game->getChessBoard()->boardSquares[aiMove->from.first][aiMove->from.second]->getPiece();
+                            auto aiPiece = game->getChessBoard()->boardSquares()[aiMove->from().first][aiMove->from().second]->getPiece();
                             aiPiece->setZValue(10);
-                            game->getChessBoard()->boardSquares[aiMove->to.first][aiMove->to.second]->setPiece(aiPiece);
-                            game->getChessBoard()->boardSquares[aiMove->from.first][aiMove->from.second]->removePiece();
+                            game->getChessBoard()->boardSquares()[aiMove->to().first][aiMove->to().second]->setPiece(aiPiece);
+                            game->getChessBoard()->boardSquares()[aiMove->from().first][aiMove->from().second]->removePiece();
                             game->getTurn()->setTurn(engine->getTurn());
                             game->resetSquareColors();
-                            game->getChessBoard()->boardSquares[aiMove->to.first][aiMove->to.second]->setColor(Color::MOVE_TO);
-                            game->getChessBoard()->boardSquares[aiMove->from.first][aiMove->from.second]->setColor(Color::MOVE_FROM);
+                            game->getChessBoard()->boardSquares()[aiMove->to().first][aiMove->to().second]->setColor(Color::MOVE_TO);
+                            game->getChessBoard()->boardSquares()[aiMove->from().first][aiMove->from().second]->setColor(Color::MOVE_FROM);
                         }
                     }
                 }
